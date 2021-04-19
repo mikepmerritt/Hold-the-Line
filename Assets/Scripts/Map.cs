@@ -5,7 +5,7 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
     // 2D level array
-    private Tile[,] LevelMap;
+    private Tile[,] LevelMap, LockMap, CompositeMap;
 
     // dimensions of the level and some info about how far it can be shifted
     public int StartWidth, StartHeight, HorizontalBuffer, VerticalBuffer;
@@ -14,11 +14,11 @@ public class Map : MonoBehaviour
     public float CenterX, CenterY;
 
     // list of units to be added to the level, made in the editor
-    private Dictionary<Point, Unit> Units;
-    public UnitsToAdd UnitsToAdd;
+    private Dictionary<Point, Unit> Units, LockedUnits;
+    public UnitsToAdd UnitsToAdd, LockedUnitsToAdd;
 
     // empty tile prefab to load into map
-    public GameObject EmptyTilePrefab;
+    public GameObject EmptyTilePrefab, LockedTilePrefab;
     private float TileWidth, TileHeight;
 
     private void Start()
@@ -31,9 +31,11 @@ public class Map : MonoBehaviour
 
         // stored in rows then columns
         LevelMap = new Tile[MapHeight, MapWidth];
+        LockMap = new Tile[MapHeight, MapWidth];
 
         // Load dictionary
         Units = UnitsToAdd.BuildDictionary();
+        LockedUnits = LockedUnitsToAdd.BuildDictionary();
 
         // generating tiles using empty tile prefab
         for (int i = VerticalBuffer, y = 1; y <= StartHeight; i++, y++) 
@@ -50,6 +52,24 @@ public class Map : MonoBehaviour
                 else
                 {
                     // Debug.Log("Nothing found at (" + x + "," + y + ").");
+                }
+            }
+        }
+
+        // generate locked map
+        for (int i = VerticalBuffer, y = 1; y <= StartHeight; i++, y++)
+        {
+            for (int j = HorizontalBuffer, x = 1; x <= StartWidth; j++, x++)
+            {
+                Unit lockedUnitToPlace;
+                if (LockedUnits.TryGetValue(new Point(x, y), out lockedUnitToPlace))
+                {
+                    LockMap[i, j] = Instantiate(LockedTilePrefab).GetComponent<Tile>();
+                    LockMap[i, j].SetUnit(lockedUnitToPlace);
+                }
+                else
+                {
+                    // don't place a lock tile and move on
                 }
             }
         }
@@ -276,6 +296,10 @@ public class Map : MonoBehaviour
         {
             for (int col = 0; col < MapWidth; col++)
             {
+                if (!(LockMap[row, col] == null))
+                {
+                    LockMap[row, col].transform.position = new Vector3(minX + col * TileWidth, maxY - row * TileHeight, 0f);
+                }
                 if (LevelMap[row, col] == null) 
                 {
                     // skip this pass, no buffer to display
