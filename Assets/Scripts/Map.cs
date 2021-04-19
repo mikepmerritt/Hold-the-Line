@@ -58,9 +58,27 @@ public class Map : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            ShiftRowLeft(1);
+            Debug.Log("Width: " + Width + "\tHeight: " + Height);
+            Debug.Log(this);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
         {
             ShiftRowRight(1);
+            Debug.Log("Width: " + Width + "\tHeight: " + Height);
+            Debug.Log(this);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            ShiftColumnUp(1);
+            Debug.Log("Width: " + Width + "\tHeight: " + Height);
+            Debug.Log(this);
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            ShiftColumnDown(1);
             Debug.Log("Width: " + Width + "\tHeight: " + Height);
             Debug.Log(this);
         }
@@ -76,12 +94,79 @@ public class Map : MonoBehaviour
         }
         else
         {
-            // shift the tiles to the right of the current column into 
+            // shift the tile to the left of the current column into 
             // the current column, starting with the rightmost column
             for (int col = MapWidth - 1; col > 0; col--)
             {
                 LevelMap[row, col] = LevelMap[row, col - 1];
             }
+            LevelMap[row, 0] = null; // clear out leftmost tile leftover
+            UpdateDimensions();
+            return true;
+        }
+    }
+
+    private bool ShiftRowLeft(int row)
+    {
+        // if a tile is in the leftmost spot
+        if (LevelMap[row, 0] != null) 
+        {
+            Debug.LogError("Invalid shift, no buffer remaining.");
+            return false;
+        }
+        else
+        {
+            // shift the tile to the right of the current column into 
+            // the current column, starting with the leftmost column
+            for (int col = 0; col < MapWidth - 1; col++)
+            {
+                LevelMap[row, col] = LevelMap[row, col + 1];
+            }
+            LevelMap[row, MapWidth - 1] = null; // clear out rightmost tile leftover
+            UpdateDimensions();
+            return true;
+        }
+    }
+
+    private bool ShiftColumnDown(int col)
+    {
+        // if a tile is in the lowest spot
+        if (LevelMap[MapHeight - 1, col] != null) 
+        {
+            Debug.LogError("Invalid shift, no buffer remaining.");
+            return false;
+        }
+        else
+        {
+            // shift the tile above the current row into 
+            // the current row, starting with the bottom row
+            for (int row = MapHeight - 1; row > 0; row--)
+            {
+                LevelMap[row, col] = LevelMap[row - 1, col];
+            }
+            LevelMap[0, col] = null; // clear out highest tile leftover
+            UpdateDimensions();
+            return true;
+        }
+    }
+
+    private bool ShiftColumnUp(int col)
+    {
+        // if a tile is in the highest spot
+        if (LevelMap[0, col] != null) 
+        {
+            Debug.LogError("Invalid shift, no buffer remaining.");
+            return false;
+        }
+        else
+        {
+            // shift the tile below the current row into 
+            // the current row, starting with the top row
+            for (int row = 0; row < MapHeight - 1; row++)
+            {
+                LevelMap[row, col] = LevelMap[row + 1, col];
+            }
+            LevelMap[MapHeight - 1, col] = null; // clear out lowest tile leftover
             UpdateDimensions();
             return true;
         }
