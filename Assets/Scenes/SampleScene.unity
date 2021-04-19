@@ -150,8 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8777f4488918d4e40a973994cf34ffea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 3
-  Height: 3
+  StartWidth: 3
+  StartHeight: 3
   HorizontalBuffer: 1
   VerticalBuffer: 1
   UnitsToAdd:

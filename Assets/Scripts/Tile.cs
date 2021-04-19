@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     private Sprite Texture;
-    public Unit Unit;
+    private Unit Unit;
 
     // update the unit stored in the current tile
     // returns if the new unit was successfully added to the tile
