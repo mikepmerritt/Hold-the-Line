@@ -11,6 +11,7 @@ public class Map : MonoBehaviour
     public int StartWidth, StartHeight, HorizontalBuffer, VerticalBuffer;
     private int Width, Height, FirstRow, FirstColumn;
     private int MapWidth, MapHeight;
+    public float CenterX, CenterY;
 
     // list of units to be added to the level, made in the editor
     private Dictionary<Point, Unit> Units;
@@ -18,6 +19,7 @@ public class Map : MonoBehaviour
 
     // empty tile prefab to load into map
     public GameObject EmptyTilePrefab;
+    private float TileWidth, TileHeight;
 
     private void Start()
     {
@@ -43,17 +45,19 @@ public class Map : MonoBehaviour
                 if (Units.TryGetValue(new Point(x, y), out unitToPlace)) 
                 {
                     LevelMap[i, j].SetUnit(unitToPlace);
-                    Debug.Log("Successfully added " + LevelMap[i, j].GetUnit() + " at (" + x + "," + y + ").");
+                    // Debug.Log("Successfully added " + LevelMap[i, j].GetUnit() + " at (" + x + "," + y + ").");
                 }
                 else
                 {
-                    Debug.Log("Nothing found at (" + x + "," + y + ").");
+                    // Debug.Log("Nothing found at (" + x + "," + y + ").");
                 }
             }
         }
 
         // print initial map 
         Debug.Log(this);
+        // display initial map
+        DisplayMap();
     }
 
     private void Update()
@@ -63,24 +67,32 @@ public class Map : MonoBehaviour
             ShiftRowLeft(1);
             Debug.Log("Width: " + Width + "\tHeight: " + Height);
             Debug.Log(this);
+            // display initial map
+            DisplayMap();
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             ShiftRowRight(1);
             Debug.Log("Width: " + Width + "\tHeight: " + Height);
             Debug.Log(this);
+            // display initial map
+            DisplayMap();
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
             ShiftColumnUp(1);
             Debug.Log("Width: " + Width + "\tHeight: " + Height);
             Debug.Log(this);
+            // display initial map
+            DisplayMap();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             ShiftColumnDown(1);
             Debug.Log("Width: " + Width + "\tHeight: " + Height);
             Debug.Log(this);
+            // display initial map
+            DisplayMap();
         }
     }
 
@@ -251,5 +263,30 @@ public class Map : MonoBehaviour
             output += "\n";
         }
         return output;
+    }
+
+    public void DisplayMap()
+    {
+        TileWidth = EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.max.x - EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.min.x;
+        TileHeight = EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.max.y - EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.min.y;
+        float minX = CenterX - ((float) MapWidth / 2 * TileWidth);
+        float maxY = CenterY + ((float) MapHeight / 2 * TileHeight);
+
+        for (int row = 0; row < MapHeight; row++) 
+        {
+            for (int col = 0; col < MapWidth; col++)
+            {
+                if (LevelMap[row, col] == null) 
+                {
+                    // skip this pass, no buffer to display
+                    // Debug.Log("Nothing found at row " + row + " col " + col + ".");
+                }
+                else 
+                {
+                    LevelMap[row, col].transform.position = new Vector3(minX + col * TileWidth, maxY - row * TileHeight, 0f);
+                    // Debug.Log("Found tile at row " + row + " col " + col + ".");
+                }
+            }
+        }
     }
 }
