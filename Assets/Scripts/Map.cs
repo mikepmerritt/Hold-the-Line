@@ -21,6 +21,10 @@ public class Map : MonoBehaviour
     public GameObject EmptyTilePrefab;
     private float TileWidth, TileHeight;
 
+    // row and column selection variables
+    public int Row, Column;
+    public bool PullLeft, PullRight, PullDown, PullUp;
+
     private void Start()
     {
         // initialize dimensions
@@ -28,6 +32,19 @@ public class Map : MonoBehaviour
         Height = StartHeight;
         MapWidth = StartWidth + 2 * VerticalBuffer;
         MapHeight = StartHeight + 2 * HorizontalBuffer;
+
+        // default row and col information
+        FirstRow = VerticalBuffer;
+        FirstColumn = HorizontalBuffer;
+
+        // initialize selection variables
+        Row = VerticalBuffer;
+        Column = HorizontalBuffer;
+
+        PullLeft = true; // start pulling rows to the left
+        PullRight = false;
+        PullDown = false;
+        PullUp = false;
 
         // stored in rows then columns
         LevelMap = new Tile[MapHeight, MapWidth];
@@ -62,6 +79,22 @@ public class Map : MonoBehaviour
 
     private void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.W)) 
+        {
+            SelectNextClockwise();
+        }
+        if (Input.GetKeyDown(KeyCode.S)) 
+        {
+            SelectNextAnticlockwise();
+        }
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            PullSelected();
+            DisplayMap();
+        }
+
+        /*
         if (Input.GetKeyDown(KeyCode.A))
         {
             ShiftRowLeft(1);
@@ -94,6 +127,7 @@ public class Map : MonoBehaviour
             // display initial map
             DisplayMap();
         }
+        */
     }
 
     private bool ShiftRowRight(int row)
@@ -234,6 +268,23 @@ public class Map : MonoBehaviour
         FirstColumn = newMinCol;
         Width = newMaxCol - newMinCol + 1;
         Height = newMaxRow - newMinRow + 1;
+
+        if (PullLeft) 
+        {
+            Column = newMinCol;
+        } 
+        else if (PullRight)
+        {
+            Column = newMaxCol;
+        }
+        else if (PullDown)
+        {
+            Row = newMaxRow;
+        }
+        else if (PullUp)
+        {
+            Row = newMinRow;
+        }
     }
 
     public override string ToString()
@@ -287,6 +338,130 @@ public class Map : MonoBehaviour
                     // Debug.Log("Found tile at row " + row + " col " + col + ".");
                 }
             }
+        }
+    }
+
+    public void SelectNextClockwise()
+    {
+        if (PullLeft)
+        {
+            if (Row == FirstRow)
+            {
+                PullUp = true;
+                PullLeft = false;
+            }
+            else
+            {
+                Row--;
+            }
+        }
+        else if (PullUp)
+        {
+            if (Column == FirstColumn + Width - 1)
+            {
+                PullRight = true;
+                PullUp = false;
+            }
+            else 
+            {
+                Column++;
+            }
+        }
+        else if (PullRight) 
+        {
+            if (Row == FirstRow + Height - 1)
+            {
+                PullDown = true;
+                PullRight = false;
+            }
+            else
+            {
+                Row++;
+            }
+        }
+        else if (PullDown)
+        {
+            if (Column == FirstColumn)
+            {
+                PullLeft = true;
+                PullDown = false;
+            }
+            else 
+            {
+                Column--;
+            }
+        }
+    }
+
+    public void SelectNextAnticlockwise() 
+    {
+        if (PullLeft)
+        {
+            if (Row == FirstRow + Height - 1) 
+            {
+                PullDown = true;
+                PullLeft = false;
+            }
+            else 
+            {
+                Row++;
+            }
+        }
+        else if (PullDown)
+        {
+            if (Column == FirstColumn + Width - 1)
+            {
+                PullRight = true;
+                PullDown = false;
+            }
+            else
+            {
+                Column++;
+            }
+        }
+        else if (PullRight) 
+        {
+            if (Row == FirstRow)
+            {
+                PullUp = true;
+                PullRight = false;
+            }
+            else
+            {
+                Row--;
+            }
+        }
+        else if (PullUp)
+        {
+            if (Column == FirstColumn)
+            {
+                PullLeft = true;
+                PullUp = false;
+            }
+            else 
+            {
+                Column--;
+            }
+        }
+    }
+
+    public void PullSelected()
+    {
+        if (PullLeft)
+        {
+            ShiftRowLeft(Row);
+        }
+        else if (PullRight)
+        {
+            ShiftRowRight(Row);
+        }
+        if (PullDown)
+        {
+            ShiftColumnDown(Column);
+        }
+        if (PullUp)
+        {
+            ShiftColumnUp(Column);
         }
     }
 }
