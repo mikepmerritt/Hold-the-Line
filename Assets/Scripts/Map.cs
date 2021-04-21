@@ -12,6 +12,7 @@ public class Map : MonoBehaviour
     private int Width, Height, FirstRow, FirstColumn;
     private int MapWidth, MapHeight;
     public float CenterX, CenterY;
+    private float MinX, MinY, MaxX, MaxY;
 
     // list of units to be added to the level, made in the editor
     private Dictionary<Point, Unit> Units;
@@ -22,8 +23,11 @@ public class Map : MonoBehaviour
     private float TileWidth, TileHeight;
 
     // row and column selection variables
-    public int Row, Column;
-    public bool PullLeft, PullRight, PullDown, PullUp;
+    private int Row, Column;
+    private bool PullLeft, PullRight, PullDown, PullUp;
+
+    // selection arrow gameobject
+    public GameObject SelectionArrow;
 
     private void Start()
     {
@@ -32,6 +36,16 @@ public class Map : MonoBehaviour
         Height = StartHeight;
         MapWidth = StartWidth + 2 * VerticalBuffer;
         MapHeight = StartHeight + 2 * HorizontalBuffer;
+
+        // tile properties
+        TileWidth = EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.max.x - EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.min.x;
+        TileHeight = EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.max.y - EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.min.y;
+
+        // borders of level
+        MinX = CenterX - ((float) (MapWidth - 1) / 2 * TileWidth);
+        MinY = CenterY - ((float) (MapHeight - 1) / 2 * TileHeight);
+        MaxX = CenterX + ((float) (MapWidth - 1) / 2 * TileWidth);
+        MaxY = CenterY + ((float) (MapHeight - 1) / 2 * TileHeight);
 
         // default row and col information
         FirstRow = VerticalBuffer;
@@ -93,6 +107,7 @@ public class Map : MonoBehaviour
             PullSelected();
             DisplayMap();
         }
+        ShowSelectionArrow();
 
         /*
         if (Input.GetKeyDown(KeyCode.A))
@@ -318,11 +333,6 @@ public class Map : MonoBehaviour
 
     public void DisplayMap()
     {
-        TileWidth = EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.max.x - EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.min.x;
-        TileHeight = EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.max.y - EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.min.y;
-        float minX = CenterX - ((float) MapWidth / 2 * TileWidth);
-        float maxY = CenterY + ((float) MapHeight / 2 * TileHeight);
-
         for (int row = 0; row < MapHeight; row++) 
         {
             for (int col = 0; col < MapWidth; col++)
@@ -334,7 +344,7 @@ public class Map : MonoBehaviour
                 }
                 else 
                 {
-                    LevelMap[row, col].transform.position = new Vector3(minX + col * TileWidth, maxY - row * TileHeight, 0f);
+                    LevelMap[row, col].transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
                     // Debug.Log("Found tile at row " + row + " col " + col + ".");
                 }
             }
@@ -462,6 +472,30 @@ public class Map : MonoBehaviour
         if (PullUp)
         {
             ShiftColumnUp(Column);
+        }
+    }
+
+    public void ShowSelectionArrow()
+    {
+        if (PullLeft)
+        {
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 0f);
+            SelectionArrow.transform.position = new Vector3(MinX - TileWidth, MaxY - Row * TileHeight, 0f);
+        }
+        else if (PullRight)
+        {
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 180f);
+            SelectionArrow.transform.position = new Vector3(MaxX + TileWidth, MaxY - Row * TileHeight, 0f);
+        }
+        else if (PullDown)
+        {
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 90f);
+            SelectionArrow.transform.position = new Vector3(MinX + Column * TileWidth, MinY - TileHeight, 0f);
+        }
+        else if (PullUp)
+        {
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 270f);
+            SelectionArrow.transform.position = new Vector3(MinX + Column * TileWidth, MaxY + TileHeight, 0f);
         }
     }
 }
