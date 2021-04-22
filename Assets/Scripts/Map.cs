@@ -11,6 +11,8 @@ public class Map : MonoBehaviour
     public int StartWidth, StartHeight, HorizontalBuffer, VerticalBuffer;
     private int Width, Height, FirstRow, FirstColumn;
     private int MapWidth, MapHeight;
+    public float CenterX, CenterY;
+    private float MinX, MinY, MaxX, MaxY;
 
     // list of units to be added to the level, made in the editor
     private Dictionary<Point, Unit> Units;
@@ -18,6 +20,14 @@ public class Map : MonoBehaviour
 
     // empty tile prefab to load into map
     public GameObject EmptyTilePrefab;
+    private float TileWidth, TileHeight;
+
+    // row and column selection variables
+    private int Row, Column;
+    private bool PullLeft, PullRight, PullDown, PullUp;
+
+    // selection arrow gameobject
+    public GameObject SelectionArrow;
 
     private void Start()
     {
@@ -26,6 +36,29 @@ public class Map : MonoBehaviour
         Height = StartHeight;
         MapWidth = StartWidth + 2 * VerticalBuffer;
         MapHeight = StartHeight + 2 * HorizontalBuffer;
+
+        // tile properties
+        TileWidth = EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.max.x - EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.min.x;
+        TileHeight = EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.max.y - EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.min.y;
+
+        // borders of level
+        MinX = CenterX - ((float) (MapWidth - 1) / 2 * TileWidth);
+        MinY = CenterY - ((float) (MapHeight - 1) / 2 * TileHeight);
+        MaxX = CenterX + ((float) (MapWidth - 1) / 2 * TileWidth);
+        MaxY = CenterY + ((float) (MapHeight - 1) / 2 * TileHeight);
+
+        // default row and col information
+        FirstRow = VerticalBuffer;
+        FirstColumn = HorizontalBuffer;
+
+        // initialize selection variables
+        Row = VerticalBuffer;
+        Column = HorizontalBuffer;
+
+        PullLeft = true; // start pulling rows to the left
+        PullRight = false;
+        PullDown = false;
+        PullUp = false;
 
         // stored in rows then columns
         LevelMap = new Tile[MapHeight, MapWidth];
@@ -43,45 +76,73 @@ public class Map : MonoBehaviour
                 if (Units.TryGetValue(new Point(x, y), out unitToPlace)) 
                 {
                     LevelMap[i, j].SetUnit(unitToPlace);
-                    Debug.Log("Successfully added " + LevelMap[i, j].GetUnit() + " at (" + x + "," + y + ").");
+                    // Debug.Log("Successfully added " + LevelMap[i, j].GetUnit() + " at (" + x + "," + y + ").");
                 }
                 else
                 {
-                    Debug.Log("Nothing found at (" + x + "," + y + ").");
+                    // Debug.Log("Nothing found at (" + x + "," + y + ").");
                 }
             }
         }
 
         // print initial map 
         Debug.Log(this);
+        // display initial map
+        DisplayMap();
     }
 
     private void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.W)) 
+        {
+            SelectNextClockwise();
+        }
+        if (Input.GetKeyDown(KeyCode.S)) 
+        {
+            SelectNextAnticlockwise();
+        }
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            PullSelected();
+            DisplayMap();
+        }
+        ShowSelectionArrow();
+
+        /*
         if (Input.GetKeyDown(KeyCode.A))
         {
             ShiftRowLeft(1);
             Debug.Log("Width: " + Width + "\tHeight: " + Height);
             Debug.Log(this);
+            // display initial map
+            DisplayMap();
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             ShiftRowRight(1);
             Debug.Log("Width: " + Width + "\tHeight: " + Height);
             Debug.Log(this);
+            // display initial map
+            DisplayMap();
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
             ShiftColumnUp(1);
             Debug.Log("Width: " + Width + "\tHeight: " + Height);
             Debug.Log(this);
+            // display initial map
+            DisplayMap();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             ShiftColumnDown(1);
             Debug.Log("Width: " + Width + "\tHeight: " + Height);
             Debug.Log(this);
+            // display initial map
+            DisplayMap();
         }
+        */
     }
 
     private bool ShiftRowRight(int row)
@@ -222,6 +283,23 @@ public class Map : MonoBehaviour
         FirstColumn = newMinCol;
         Width = newMaxCol - newMinCol + 1;
         Height = newMaxRow - newMinRow + 1;
+
+        if (PullLeft) 
+        {
+            Column = newMinCol;
+        } 
+        else if (PullRight)
+        {
+            Column = newMaxCol;
+        }
+        else if (PullDown)
+        {
+            Row = newMaxRow;
+        }
+        else if (PullUp)
+        {
+            Row = newMinRow;
+        }
     }
 
     public override string ToString()
@@ -251,5 +329,173 @@ public class Map : MonoBehaviour
             output += "\n";
         }
         return output;
+    }
+
+    public void DisplayMap()
+    {
+        for (int row = 0; row < MapHeight; row++) 
+        {
+            for (int col = 0; col < MapWidth; col++)
+            {
+                if (LevelMap[row, col] == null) 
+                {
+                    // skip this pass, no buffer to display
+                    // Debug.Log("Nothing found at row " + row + " col " + col + ".");
+                }
+                else 
+                {
+                    LevelMap[row, col].transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
+                    // Debug.Log("Found tile at row " + row + " col " + col + ".");
+                }
+            }
+        }
+    }
+
+    public void SelectNextClockwise()
+    {
+        if (PullLeft)
+        {
+            if (Row == FirstRow)
+            {
+                PullUp = true;
+                PullLeft = false;
+            }
+            else
+            {
+                Row--;
+            }
+        }
+        else if (PullUp)
+        {
+            if (Column == FirstColumn + Width - 1)
+            {
+                PullRight = true;
+                PullUp = false;
+            }
+            else 
+            {
+                Column++;
+            }
+        }
+        else if (PullRight) 
+        {
+            if (Row == FirstRow + Height - 1)
+            {
+                PullDown = true;
+                PullRight = false;
+            }
+            else
+            {
+                Row++;
+            }
+        }
+        else if (PullDown)
+        {
+            if (Column == FirstColumn)
+            {
+                PullLeft = true;
+                PullDown = false;
+            }
+            else 
+            {
+                Column--;
+            }
+        }
+    }
+
+    public void SelectNextAnticlockwise() 
+    {
+        if (PullLeft)
+        {
+            if (Row == FirstRow + Height - 1) 
+            {
+                PullDown = true;
+                PullLeft = false;
+            }
+            else 
+            {
+                Row++;
+            }
+        }
+        else if (PullDown)
+        {
+            if (Column == FirstColumn + Width - 1)
+            {
+                PullRight = true;
+                PullDown = false;
+            }
+            else
+            {
+                Column++;
+            }
+        }
+        else if (PullRight) 
+        {
+            if (Row == FirstRow)
+            {
+                PullUp = true;
+                PullRight = false;
+            }
+            else
+            {
+                Row--;
+            }
+        }
+        else if (PullUp)
+        {
+            if (Column == FirstColumn)
+            {
+                PullLeft = true;
+                PullUp = false;
+            }
+            else 
+            {
+                Column--;
+            }
+        }
+    }
+
+    public void PullSelected()
+    {
+        if (PullLeft)
+        {
+            ShiftRowLeft(Row);
+        }
+        else if (PullRight)
+        {
+            ShiftRowRight(Row);
+        }
+        if (PullDown)
+        {
+            ShiftColumnDown(Column);
+        }
+        if (PullUp)
+        {
+            ShiftColumnUp(Column);
+        }
+    }
+
+    public void ShowSelectionArrow()
+    {
+        if (PullLeft)
+        {
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 0f);
+            SelectionArrow.transform.position = new Vector3(MinX - TileWidth, MaxY - Row * TileHeight, 0f);
+        }
+        else if (PullRight)
+        {
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 180f);
+            SelectionArrow.transform.position = new Vector3(MaxX + TileWidth, MaxY - Row * TileHeight, 0f);
+        }
+        else if (PullDown)
+        {
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 90f);
+            SelectionArrow.transform.position = new Vector3(MinX + Column * TileWidth, MinY - TileHeight, 0f);
+        }
+        else if (PullUp)
+        {
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 270f);
+            SelectionArrow.transform.position = new Vector3(MinX + Column * TileWidth, MaxY + TileHeight, 0f);
+        }
     }
 }
