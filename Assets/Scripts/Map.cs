@@ -364,6 +364,12 @@ public class Map : MonoBehaviour
                 {
                     LevelMap[row, col].transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
                     // Debug.Log("Found tile at row " + row + " col " + col + ".");
+                    // Display unit on top of tile
+                    if (LevelMap[row, col].GetUnit() != null)
+                    {
+                        LevelMap[row, col].GetUnit().transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
+                        LevelMap[row, col].GetUnit().UpdateLayer(1);
+                    }
                 }
             }
         }
