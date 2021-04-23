@@ -189,6 +189,10 @@ MonoBehaviour:
   LockedTilePrefab: {fileID: 4316724894997702998, guid: 08e53229e22f08546ad310bed1056a8f,
     type: 3}
   SelectionArrow: {fileID: 1861071734}
+  LockedTiles:
+  - {x: 1, y: 1}
+  - {x: 2, y: 2}
+  - {x: 3, y: 3}
 --- !u!4 &414157295
 Transform:
   m_ObjectHideFlags: 0
