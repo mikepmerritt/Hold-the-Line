@@ -15,8 +15,8 @@ public class Map : MonoBehaviour
     private float MinX, MinY, MaxX, MaxY;
 
     // list of units to be added to the level, made in the editor
-    private Dictionary<Point, Unit> Units, LockedUnits;
-    public UnitsToAdd UnitsToAdd, LockedUnitsToAdd;
+    private Dictionary<Point, Unit> Units;
+    public UnitsToAdd UnitsToAdd;
 
     // empty tile prefab to load into map
     public GameObject EmptyTilePrefab, LockedTilePrefab;
@@ -28,6 +28,9 @@ public class Map : MonoBehaviour
 
     // selection arrow gameobject
     public GameObject SelectionArrow;
+
+    // list of lock tiles
+    public List<Vector2Int> LockedTiles;
 
     private void Start()
     {
@@ -66,7 +69,6 @@ public class Map : MonoBehaviour
 
         // Load dictionary
         Units = UnitsToAdd.BuildDictionary();
-        LockedUnits = LockedUnitsToAdd.BuildDictionary();
 
         // generating tiles using empty tile prefab
         for (int i = VerticalBuffer, y = 1; y <= StartHeight; i++, y++) 
@@ -88,21 +90,8 @@ public class Map : MonoBehaviour
         }
 
         // generate locked map
-        for (int i = VerticalBuffer, y = 1; y <= StartHeight; i++, y++)
-        {
-            for (int j = HorizontalBuffer, x = 1; x <= StartWidth; j++, x++)
-            {
-                Unit lockedUnitToPlace;
-                if (LockedUnits.TryGetValue(new Point(x, y), out lockedUnitToPlace))
-                {
-                    LockMap[i, j] = Instantiate(LockedTilePrefab).GetComponent<Tile>();
-                    LockMap[i, j].SetUnit(lockedUnitToPlace);
-                }
-                else
-                {
-                    // don't place a lock tile and move on
-                }
-            }
+        for (int i = 0; i < LockedTiles.Count; i++)  {
+            LockMap[LockedTiles[i].x, LockedTiles[i].y] = Instantiate(LockedTilePrefab).GetComponent<Tile>();
         }
 
         // print initial map 
@@ -370,6 +359,12 @@ public class Map : MonoBehaviour
                 {
                     LevelMap[row, col].transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
                     // Debug.Log("Found tile at row " + row + " col " + col + ".");
+                    // Display unit on top of tile
+                    if (LevelMap[row, col].GetUnit() != null)
+                    {
+                        LevelMap[row, col].GetUnit().transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
+                        LevelMap[row, col].GetUnit().UpdateLayer(1);
+                    }
                 }
             }
         }
