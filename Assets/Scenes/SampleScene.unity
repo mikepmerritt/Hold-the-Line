@@ -157,17 +157,21 @@ MonoBehaviour:
   CenterX: 0
   CenterY: 0
   UnitsToAdd:
-    Units:
-    - {fileID: 6019897655725274287, guid: aa9ee989d493c9a40972b403e35b358e, type: 3}
-    - {fileID: 2996243726277272853, guid: 8af795472c6824c428b48b12b806aa2b, type: 3}
+    UnitTemplates:
+    - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
+        type: 3}
+      Sprite: {fileID: 21300000, guid: c3c481cd165f19847bec37999419b4ba, type: 3}
+      Location:
+        X: 2
+        Y: 3
+      Direction: 78
+      Health: 2
+      Team: 1
     Points:
     - X: 2
       Y: 3
-    - X: 2
-      Y: 1
   LockedUnitsToAdd:
-    Units:
-    - {fileID: 2996243726277272853, guid: 8af795472c6824c428b48b12b806aa2b, type: 3}
+    UnitTemplates: []
     Points:
     - X: 3
       Y: 1
