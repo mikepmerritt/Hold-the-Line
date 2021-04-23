@@ -10,10 +10,17 @@ public abstract class Unit : MonoBehaviour
     public char Direction; // direction that the unit is facing in
     public int Health, Team;
 
-    private void Start() 
+    private void Awake() 
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
         SpriteRenderer.sprite = Sprite;
+    }
+
+    public void UpdateLayer(int layer) 
+    {
+        // fixing an issue where the sprite did not load
+        SpriteRenderer.sprite = Sprite;
+        SpriteRenderer.sortingOrder = layer;
     }
 
     public virtual void UpdateTarget() 
