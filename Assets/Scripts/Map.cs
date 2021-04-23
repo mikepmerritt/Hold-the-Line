@@ -165,6 +165,10 @@ public class Map : MonoBehaviour
         }
         else
         {
+            // check to make sure that the locked tiles permit the move
+            if(!TryConstructCompositeMap(row, -1, -1, 0)) {
+                return false;
+            }
             // shift the tile to the left of the current column into 
             // the current column, starting with the rightmost column
             for (int col = MapWidth - 1; col > 0; col--)
@@ -188,6 +192,10 @@ public class Map : MonoBehaviour
         }
         else
         {
+            // check to make sure that the locked tiles permit the move
+            if(!TryConstructCompositeMap(row, -1, 1, 0)) {
+                return false;
+            }
             // shift the tile to the right of the current column into 
             // the current column, starting with the leftmost column
             for (int col = 0; col < MapWidth - 1; col++)
@@ -211,6 +219,10 @@ public class Map : MonoBehaviour
         }
         else
         {
+            // check to make sure that the locked tiles permit the move
+            if(!TryConstructCompositeMap(-1, col, 0, -1)) {
+                return false;
+            }
             // shift the tile above the current row into 
             // the current row, starting with the bottom row
             for (int row = MapHeight - 1; row > 0; row--)
@@ -234,6 +246,10 @@ public class Map : MonoBehaviour
         }
         else
         {
+            // check to make sure that the locked tiles permit the move
+            if(!TryConstructCompositeMap(-1, col, 0, 1)) {
+                return false;
+            }
             // shift the tile below the current row into 
             // the current row, starting with the top row
             for (int row = 0; row < MapHeight - 1; row++)
@@ -523,6 +539,44 @@ public class Map : MonoBehaviour
         }
     }
 
+    public bool TryConstructCompositeMap(int row, int col, int dx, int dy) {
+        //Debug.LogWarning(LockMapToString());
+        // a column is being shifted up or down, so check every element in the current column
+        if (dx == 0) {
+            for (int i = 0; i < MapHeight; i++) {
+                //Debug.Log("Row: " + i + " Col: " + col);
+                if (LockMap[i, col] != null && LevelMap[i + dy, col] != null)
+                {
+                    //Debug.Log("There was a tile stack.");
+                    if(LevelMap[i + dy, col].GetUnit() != null) {
+                        Debug.LogError("Units cannot be moved over locked tiles.");
+                        return false;
+                    }
+                }
+            }
+            //Debug.Log("The move was valid.");
+            return true;
+        }
+        // a row is being shifted left or right, so check every element in the current row
+        else if (dy == 0) {
+            for (int i = 0; i < MapWidth; i++) {
+                //Debug.Log("Row: " + row + " Col: " + i + " i+dx: " + (i+dx));
+                if (LockMap[row, i] != null && LevelMap[row, i + dx] != null)
+                {
+                    //Debug.Log("There was a tile stack.");
+                    if(LevelMap[row, i + dx].GetUnit() != null) {
+                        Debug.LogError("Units cannot be moved over locked tiles.");
+                        return false;
+                    }
+                }
+            }
+            //Debug.Log("The move was valid.");
+            return true;
+        }
+        Debug.LogError("Illegal unknown move.");
+        return false;
+    }
+
     public void ConstructCompositeMap() {
         for (int row = 0; row < MapHeight; row++) 
         {
@@ -542,7 +596,7 @@ public class Map : MonoBehaviour
                 }
             }
         }
-        Debug.Log(CompositeMapToString());
+        //Debug.Log(CompositeMapToString());
     }
 
     public string CompositeMapToString()
@@ -565,6 +619,35 @@ public class Map : MonoBehaviour
                     else 
                     {
                         output += CompositeMap[row, col].GetUnit().ToString();
+                    }
+                }
+                output += "\t";
+            }
+            output += "\n";
+        }
+        return output;
+    }
+
+    public string LockMapToString()
+    {
+        string output = "Lock Map:\n";
+        for (int row = 0; row < MapHeight; row++) 
+        {
+            for (int col = 0; col < MapWidth; col++)
+            {
+                if (LockMap[row, col] == null)
+                {
+                    output += "NA";
+                }
+                else
+                {
+                    if (LockMap[row, col].GetUnit() == null)
+                    {
+                        output += "EM";
+                    }
+                    else 
+                    {
+                        output += LockMap[row, col].GetUnit().ToString();
                     }
                 }
                 output += "\t";
