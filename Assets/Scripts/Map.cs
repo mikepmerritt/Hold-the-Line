@@ -66,6 +66,7 @@ public class Map : MonoBehaviour
         // stored in rows then columns
         LevelMap = new Tile[MapHeight, MapWidth];
         LockMap = new Tile[MapHeight, MapWidth];
+        CompositeMap = new Tile[MapHeight, MapWidth];
 
         // Load dictionary
         Units = UnitsToAdd.BuildDictionary();
@@ -95,7 +96,7 @@ public class Map : MonoBehaviour
         }
 
         // print initial map 
-        Debug.Log(this);
+        //Debug.Log(this);
         // display initial map
         DisplayMap();
     }
@@ -172,6 +173,7 @@ public class Map : MonoBehaviour
             }
             LevelMap[row, 0] = null; // clear out leftmost tile leftover
             UpdateDimensions();
+            ConstructCompositeMap();
             return true;
         }
     }
@@ -194,6 +196,7 @@ public class Map : MonoBehaviour
             }
             LevelMap[row, MapWidth - 1] = null; // clear out rightmost tile leftover
             UpdateDimensions();
+            ConstructCompositeMap();
             return true;
         }
     }
@@ -216,6 +219,7 @@ public class Map : MonoBehaviour
             }
             LevelMap[0, col] = null; // clear out highest tile leftover
             UpdateDimensions();
+            ConstructCompositeMap();
             return true;
         }
     }
@@ -238,6 +242,7 @@ public class Map : MonoBehaviour
             }
             LevelMap[MapHeight - 1, col] = null; // clear out lowest tile leftover
             UpdateDimensions();
+            ConstructCompositeMap();
             return true;
         }
     }
@@ -510,5 +515,56 @@ public class Map : MonoBehaviour
             SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 270f);
             SelectionArrow.transform.position = new Vector3(MinX + Column * TileWidth, MaxY + TileHeight, 0f);
         }
+    }
+
+    public void ConstructCompositeMap() {
+        for (int row = 0; row < MapHeight; row++) 
+        {
+            for (int col = 0; col < MapWidth; col++)
+            {
+                if (!(LockMap[row, col] == null))
+                {
+                    CompositeMap[row, col] = LockMap[row, col];
+                }
+                else if (LevelMap[row, col] == null) 
+                {
+                    CompositeMap[row, col] = null;
+                }
+                else 
+                {
+                    CompositeMap[row, col] = LevelMap[row, col];
+                }
+            }
+        }
+        Debug.Log(CompositeMapToString());
+    }
+
+    public string CompositeMapToString()
+    {
+        string output = "Composite Map:\n";
+        for (int row = 0; row < MapHeight; row++) 
+        {
+            for (int col = 0; col < MapWidth; col++)
+            {
+                if (CompositeMap[row, col] == null)
+                {
+                    output += "NA";
+                }
+                else
+                {
+                    if (CompositeMap[row, col].GetUnit() == null)
+                    {
+                        output += "EM";
+                    }
+                    else 
+                    {
+                        output += CompositeMap[row, col].GetUnit().ToString();
+                    }
+                }
+                output += "\t";
+            }
+            output += "\n";
+        }
+        return output;
     }
 }
