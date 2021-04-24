@@ -26,6 +26,6 @@ public class MeleeUnit : Unit
 
     public override void Act() 
     {
-        // TODO: Implement
+        Tile targetTile = Map.GetTileInComposite(Target.Y, Target.X); // fetch target tile to check for units
     }
 }
