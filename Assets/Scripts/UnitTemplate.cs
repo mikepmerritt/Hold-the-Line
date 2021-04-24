@@ -7,15 +7,10 @@ public class UnitTemplate
 {
     public GameObject UnitModel;
     public Sprite Sprite;
-    private Point Location;
+    public Point Location;
     public char Direction;
     public int Health, Team;
     private Unit Unit;
-
-    public void SetLocation(Point location)
-    {
-        Location = location;
-    }
 
     public Unit CreateUnit() {
         Unit = MonoBehaviour.Instantiate(UnitModel, new Vector3(0f, 0f, -20f), Quaternion.identity).GetComponent<Unit>();
