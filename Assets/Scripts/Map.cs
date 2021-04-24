@@ -14,9 +14,9 @@ public class Map : MonoBehaviour
     public float CenterX, CenterY;
     private float MinX, MinY, MaxX, MaxY;
 
-    // list of units to be added to the level, made in the editor
-    private Dictionary<Point, Unit> Units;
-    public UnitsToAdd UnitsToAdd;
+    // lists of units to be added to the level, made in the editor
+    private Dictionary<Point, Unit> Units, LockedUnits;
+    public UnitsToAdd UnitsToAdd, LockedUnitsToAdd;
 
     // empty tile prefab to load into map
     public GameObject EmptyTilePrefab, LockedTilePrefab;
@@ -82,19 +82,20 @@ public class Map : MonoBehaviour
         // create list
         OverlayObjects = new List<GameObject>();
 
-        // Load dictionary
+        // Load dictionaries
         Units = UnitsToAdd.BuildDictionary();
+        LockedUnits = LockedUnitsToAdd.BuildDictionary();
 
         // generating tiles using empty tile prefab
         if (AutomaticTileGrid) 
         {
-            for (int i = VerticalBuffer, y = 1; y <= StartHeight; i++, y++) 
+            for (int i = VerticalBuffer; i < MapHeight - VerticalBuffer; i++) 
             {
-                for (int j = HorizontalBuffer, x = 1; x <= StartWidth; j++, x++) 
+                for (int j = HorizontalBuffer; j < MapWidth - HorizontalBuffer; j++) 
                 {
                     LevelMap[i, j] = Instantiate(EmptyTilePrefab).GetComponent<Tile>();
                     Unit unitToPlace;
-                    if (Units.TryGetValue(new Point(x, y), out unitToPlace)) 
+                    if (Units.TryGetValue(new Point(j, i), out unitToPlace)) 
                     {
                         LevelMap[i, j].SetUnit(unitToPlace);
                         // Debug.Log("Successfully added " + LevelMap[i, j].GetUnit() + " at (" + x + "," + y + ").");
@@ -110,13 +111,13 @@ public class Map : MonoBehaviour
         {
             for (int i = 0; i < LevelTiles.Count; i++)  
             {
-                if(LevelMap[LevelTiles[i].x, LevelTiles[i].y] == null)
+                if(LevelMap[LevelTiles[i].y, LevelTiles[i].x] == null)
                 {
-                    LevelMap[LevelTiles[i].x, LevelTiles[i].y] = Instantiate(EmptyTilePrefab).GetComponent<Tile>();
+                    LevelMap[LevelTiles[i].y, LevelTiles[i].x] = Instantiate(EmptyTilePrefab).GetComponent<Tile>();
                     Unit unitToPlace;
                     if (Units.TryGetValue(new Point(LevelTiles[i].x, LevelTiles[i].y), out unitToPlace)) 
                     {
-                        LevelMap[LevelTiles[i].x, LevelTiles[i].y].SetUnit(unitToPlace);
+                        LevelMap[LevelTiles[i].y, LevelTiles[i].x].SetUnit(unitToPlace);
                         //Debug.Log("Successfully added " + LevelMap[LevelTiles[i].x, LevelTiles[i].y].GetUnit() + " at (" + LevelTiles[i].x + "," + LevelTiles[i].y + ").");
                     }
                     else
@@ -135,7 +136,12 @@ public class Map : MonoBehaviour
         // generate locked map
         for (int i = 0; i < LockedTiles.Count; i++)  
         {
-            LockMap[LockedTiles[i].x, LockedTiles[i].y] = Instantiate(LockedTilePrefab).GetComponent<Tile>();
+            LockMap[LockedTiles[i].y, LockedTiles[i].x] = Instantiate(LockedTilePrefab).GetComponent<Tile>();
+            Unit unitToPlace;
+            if (LockedUnits.TryGetValue(new Point(LockedTiles[i].x, LockedTiles[i].y), out unitToPlace)) 
+            {
+                LockMap[LockedTiles[i].y, LockedTiles[i].x].SetUnit(unitToPlace);
+            }
         }
 
         // print initial map 
@@ -509,6 +515,12 @@ public class Map : MonoBehaviour
                 if (!(LockMap[row, col] == null))
                 {
                     LockMap[row, col].transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
+                    // Debug.Log(LockMap[row, col].GetUnit());
+                    if (LockMap[row, col].GetUnit() != null)
+                    {
+                        LockMap[row, col].GetUnit().transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
+                        LockMap[row, col].GetUnit().UpdateLayer(2);
+                    }
                 }
                 if (LevelMap[row, col] == null) 
                 {
@@ -523,7 +535,7 @@ public class Map : MonoBehaviour
                     if (LevelMap[row, col].GetUnit() != null)
                     {
                         LevelMap[row, col].GetUnit().transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
-                        LevelMap[row, col].GetUnit().UpdateLayer(1);
+                        LevelMap[row, col].GetUnit().UpdateLayer(2);
                     }
                 }
             }
@@ -808,9 +820,9 @@ public class Map : MonoBehaviour
     {
         player1Units = new List<Unit>();
         player2Units = new List<Unit>();
-        for (int row = FirstRow; row < FirstRow + Height; row++)
+        for (int row = 0; row < MapHeight; row++)
         {
-            for (int col = FirstColumn; col < FirstColumn + Width; col++)
+            for (int col = 0; col < MapWidth; col++)
             {
                 if (LevelMap[row, col] == null)
                 {
@@ -826,6 +838,23 @@ public class Map : MonoBehaviour
                     else
                     {
                         player2Units.Add(LevelMap[row, col].GetUnit());
+                    }
+                }
+
+                if (LockMap[row, col] == null)
+                {
+                    // Do nothing
+                }
+                else if (LockMap[row, col].GetUnit() != null)
+                {
+                    LockMap[row, col].GetUnit().Location = new Point(col, row);
+                    if (LockMap[row, col].GetUnit().Team == 1)
+                    {
+                        player1Units.Add(LockMap[row, col].GetUnit());
+                    }
+                    else
+                    {
+                        player2Units.Add(LockMap[row, col].GetUnit());
                     }
                 }
             }
