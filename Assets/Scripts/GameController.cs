@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     private Map Map;
     private List<Unit> Player1Units, Player2Units; 
     private bool IsPulling, IsPushing, ShowOverlay;
+    private int SelectedUnit;
 
     private void Start()
     {
@@ -16,6 +17,7 @@ public class GameController : MonoBehaviour
         IsPulling = true;
         IsPushing = false;
         ShowOverlay = false;
+        SelectedUnit = 0;
     }
 
     private void Update() 
@@ -36,11 +38,16 @@ public class GameController : MonoBehaviour
             {
                 IsPulling = false;
                 IsPushing = true;
+                Map.HideSelectionArrow();
+                SelectedUnit = 0;
+                Map.ShowSelectionBox(Player1Units[SelectedUnit].Location.Y, Player1Units[SelectedUnit].Location.X);
             }
             else if (IsPushing)
             {
                 IsPushing = false;
                 IsPulling = true;
+                Map.ShowSelectionArrow();
+                Map.HideSelectionBox();
             }
         }
 
@@ -64,11 +71,11 @@ public class GameController : MonoBehaviour
 
         if (IsPulling)
         {
-            if (Input.GetKeyDown(KeyCode.W)) 
+            if (Input.GetKeyDown(KeyCode.Q)) 
             {
                 Map.SelectNextClockwise();
             }
-            if (Input.GetKeyDown(KeyCode.S)) 
+            if (Input.GetKeyDown(KeyCode.E)) 
             {
                 Map.SelectNextAnticlockwise();
             }
@@ -83,7 +90,37 @@ public class GameController : MonoBehaviour
         }
         else if (IsPushing) 
         {
-            // not implemented yet
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                SelectedUnit = (SelectedUnit + 1) % Player1Units.Count;
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                SelectedUnit = (SelectedUnit - 1 + Player1Units.Count) % Player1Units.Count;
+            }
+
+            // push up
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                Player1Units[SelectedUnit].Push('N');
+            }
+            // push down
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                Player1Units[SelectedUnit].Push('S');
+            }
+            // push left
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                Player1Units[SelectedUnit].Push('W');
+            }
+            // push right
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                Player1Units[SelectedUnit].Push('E');
+            }
+             
+            Map.ShowSelectionBox(Player1Units[SelectedUnit].Location.Y, Player1Units[SelectedUnit].Location.X);
         }
 
         // THIS IS DEBUG ONLY

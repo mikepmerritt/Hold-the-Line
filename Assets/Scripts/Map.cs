@@ -43,6 +43,9 @@ public class Map : MonoBehaviour
     public GameObject Player1Overlay, Player2Overlay;
     private List<GameObject> OverlayObjects;
 
+    // selection box
+    public GameObject SelectionBox;
+
     private void Start()
     {
         // initialize dimensions
@@ -668,6 +671,7 @@ public class Map : MonoBehaviour
 
     public void ShowSelectionArrow()
     {
+        SelectionArrow.SetActive(true);
         if (PullLeft)
         {
             SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 0f);
@@ -688,6 +692,11 @@ public class Map : MonoBehaviour
             SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 270f);
             SelectionArrow.transform.position = new Vector3(MinX + Column * TileWidth, MaxY + TileHeight, 0f);
         }
+    }
+
+    public void HideSelectionArrow()
+    {
+        SelectionArrow.SetActive(false);
     }
 
     public bool TryConstructCompositeMap(int row, int col, int dx, int dy) 
@@ -894,5 +903,21 @@ public class Map : MonoBehaviour
             return null; // out of bounds
         }
         return CompositeMap[row, col];
+    }
+
+    public void ShowSelectionBox(int row, int col)
+    {
+        SelectionBox.SetActive(true);
+        SelectionBox.transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
+    }
+
+    public void HideSelectionBox()
+    {
+        SelectionBox.SetActive(false);
+    }
+
+    public bool IsLocked(int row, int col)
+    {
+        return LockMap[row, col] != null;
     }
 }
