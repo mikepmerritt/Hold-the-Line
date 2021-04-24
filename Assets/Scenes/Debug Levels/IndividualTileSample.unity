@@ -163,7 +163,7 @@ MonoBehaviour:
       Sprite: {fileID: 21300000, guid: c3c481cd165f19847bec37999419b4ba, type: 3}
       Location:
         X: 2
-        Y: 2
+        Y: 0
       Direction: 78
       Health: 2
       Team: 1
@@ -176,6 +176,8 @@ MonoBehaviour:
       Direction: 83
       Health: 2
       Team: 2
+  LockedUnitsToAdd:
+    UnitTemplates: []
   EmptyTilePrefab: {fileID: 2300288467195036540, guid: b7cb986b37623c749abd6d2e4f1fcb5c,
     type: 3}
   LockedTilePrefab: {fileID: 4316724894997702998, guid: 08e53229e22f08546ad310bed1056a8f,

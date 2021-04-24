@@ -219,6 +219,8 @@ MonoBehaviour:
       Direction: 87
       Health: 2
       Team: 1
+  LockedUnitsToAdd:
+    UnitTemplates:
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
         type: 3}
       Sprite: {fileID: 21300000, guid: c3c481cd165f19847bec37999419b4ba, type: 3}
