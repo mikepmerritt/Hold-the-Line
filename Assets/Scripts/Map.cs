@@ -886,4 +886,13 @@ public class Map : MonoBehaviour
             Destroy(overlayTile);
         }
     }
+    
+    public Tile GetTileInComposite(int row, int col)
+    {
+        if (row < 0 || row >= MapHeight || col < 0 || col >= MapWidth)
+        {
+            return null; // out of bounds
+        }
+        return CompositeMap[row, col];
+    }
 }

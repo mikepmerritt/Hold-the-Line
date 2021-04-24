@@ -9,11 +9,13 @@ public abstract class Unit : MonoBehaviour
     public Point Location, Target;
     public char Direction; // direction that the unit is facing in
     public int Health, Team;
+    protected Map Map;
 
     private void Awake() 
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
         SpriteRenderer.sprite = Sprite;
+        Map = FindObjectOfType<Map>();
     }
 
     public void UpdateLayer(int layer) 
