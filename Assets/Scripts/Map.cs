@@ -889,7 +889,7 @@ public class Map : MonoBehaviour
     
     public Tile GetTileInComposite(int row, int col)
     {
-        if (row < 0 || row > MapHeight || col < 0 || col > MapWidth)
+        if (row < 0 || row >= MapHeight || col < 0 || col >= MapWidth)
         {
             return null; // out of bounds
         }
