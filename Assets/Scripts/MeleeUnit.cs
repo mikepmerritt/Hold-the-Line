@@ -8,11 +8,11 @@ public class MeleeUnit : Unit
     {
         if (Direction == 'N')
         {
-            Target = new Point(Location.X, Location.Y + 1);
+            Target = new Point(Location.X, Location.Y - 1);
         }
         else if (Direction == 'S')
         {
-            Target = new Point(Location.X, Location.Y - 1);
+            Target = new Point(Location.X, Location.Y + 1);
         }
         else if (Direction == 'W')
         {

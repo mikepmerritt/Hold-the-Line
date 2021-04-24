@@ -32,6 +32,10 @@ public class Map : MonoBehaviour
     // list of lock tiles
     public List<Vector2Int> LockedTiles;
 
+    // overlay 
+    public GameObject Player1Overlay, Player2Overlay;
+    private List<GameObject> OverlayObjects;
+
     private void Start()
     {
         // initialize dimensions
@@ -68,6 +72,9 @@ public class Map : MonoBehaviour
         LockMap = new Tile[MapHeight, MapWidth];
         CompositeMap = new Tile[MapHeight, MapWidth];
 
+        // create list
+        OverlayObjects = new List<GameObject>();
+
         // Load dictionary
         Units = UnitsToAdd.BuildDictionary();
 
@@ -101,9 +108,11 @@ public class Map : MonoBehaviour
         DisplayMap();
     }
 
+    /*
     private void Update()
     {
 
+        // Second code block
         if (Input.GetKeyDown(KeyCode.W)) 
         {
             SelectNextClockwise();
@@ -118,8 +127,9 @@ public class Map : MonoBehaviour
             DisplayMap();
         }
         ShowSelectionArrow();
+        // End second code block
 
-        /*
+        // Inital code block
         if (Input.GetKeyDown(KeyCode.A))
         {
             ShiftRowLeft(1);
@@ -152,8 +162,9 @@ public class Map : MonoBehaviour
             // display initial map
             DisplayMap();
         }
-        */
+        // End intial code block
     }
+    */
 
     private bool ShiftRowRight(int row)
     {
@@ -655,5 +666,59 @@ public class Map : MonoBehaviour
             output += "\n";
         }
         return output;
+    }
+    
+    public void CorrectAllUnitPositions(out List<Unit> player1Units, out List<Unit> player2Units)
+    {
+        player1Units = new List<Unit>();
+        player2Units = new List<Unit>();
+        for (int row = FirstRow; row < FirstRow + Height; row++)
+        {
+            for (int col = FirstColumn; col < FirstColumn + Width; col++)
+            {
+                if (LevelMap[row, col] == null)
+                {
+                    // Do nothing
+                }
+                else if (LevelMap[row, col].GetUnit() != null)
+                {
+                    LevelMap[row, col].GetUnit().Location = new Point(col, row);
+                    if (LevelMap[row, col].GetUnit().Team == 1)
+                    {
+                        player1Units.Add(LevelMap[row, col].GetUnit());
+                    }
+                    else
+                    {
+                        player2Units.Add(LevelMap[row, col].GetUnit());
+                    }
+                }
+            }
+        }
+    }
+
+    public void ShowOverlay(List<Unit> player1Units, List<Unit> player2Units)
+    {
+        foreach (GameObject overlayTile in OverlayObjects)
+        {
+            Destroy(overlayTile);
+        }
+        OverlayObjects.Clear();
+
+        foreach (Unit unit in player1Units)
+        {
+            OverlayObjects.Add(Instantiate(Player1Overlay, new Vector3(MinX + unit.Target.X * TileWidth, MaxY - unit.Target.Y * TileHeight, 0f), Quaternion.identity));
+        }
+        foreach (Unit unit in player2Units)
+        {
+            OverlayObjects.Add(Instantiate(Player2Overlay, new Vector3(MinX + unit.Target.X * TileWidth, MaxY - unit.Target.Y * TileHeight, 0f), Quaternion.identity));
+        }
+    }
+
+    public void HideOverlay()
+    {
+        foreach (GameObject overlayTile in OverlayObjects)
+        {
+            Destroy(overlayTile);
+        }
     }
 }
