@@ -71,11 +71,11 @@ public class GameController : MonoBehaviour
 
         if (IsPulling)
         {
-            if (Input.GetKeyDown(KeyCode.W)) 
+            if (Input.GetKeyDown(KeyCode.Q)) 
             {
                 Map.SelectNextClockwise();
             }
-            if (Input.GetKeyDown(KeyCode.S)) 
+            if (Input.GetKeyDown(KeyCode.E)) 
             {
                 Map.SelectNextAnticlockwise();
             }
