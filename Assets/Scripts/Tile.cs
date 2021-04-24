@@ -22,6 +22,11 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void RemoveUnit()
+    {
+        Unit = null;
+    }
+
     public Unit GetUnit() 
     {
         return Unit;

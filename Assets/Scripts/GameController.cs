@@ -102,22 +102,22 @@ public class GameController : MonoBehaviour
             // push up
             if (Input.GetKeyDown(KeyCode.W))
             {
-
+                Player1Units[SelectedUnit].Push('N');
             }
             // push down
             else if (Input.GetKeyDown(KeyCode.S))
             {
-
+                Player1Units[SelectedUnit].Push('S');
             }
             // push left
             else if (Input.GetKeyDown(KeyCode.A))
             {
-
+                Player1Units[SelectedUnit].Push('W');
             }
             // push right
             else if (Input.GetKeyDown(KeyCode.D))
             {
-
+                Player1Units[SelectedUnit].Push('E');
             }
              
             Map.ShowSelectionBox(Player1Units[SelectedUnit].Location.Y, Player1Units[SelectedUnit].Location.X);
