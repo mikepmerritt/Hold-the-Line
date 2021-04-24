@@ -26,15 +26,8 @@ public class GameController : MonoBehaviour
             
             Map.ConstructCompositeMap();
 
-            // correcting targets before showing
-            foreach (Unit unit in Player1Units)
-            {
-                unit.UpdateTarget();
-            }
-            foreach (Unit unit in Player2Units)
-            {
-                unit.UpdateTarget();
-            }
+            // load initial targets
+            UpdateAllTargets();
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -58,15 +51,8 @@ public class GameController : MonoBehaviour
 
         if (ShowOverlay)
         {
-            // correcting targets before showing
-            foreach (Unit unit in Player1Units)
-            {
-                unit.UpdateTarget();
-            }
-            foreach (Unit unit in Player2Units)
-            {
-                unit.UpdateTarget();
-            }
+            // correct targets again before showing
+            UpdateAllTargets();
 
             Map.ShowOverlay(Player1Units, Player2Units);
         }
@@ -91,6 +77,7 @@ public class GameController : MonoBehaviour
                 Map.PullSelected();
                 Map.DisplayMap();
                 Map.CorrectAllUnitPositions(out Player1Units, out Player2Units);
+                UpdateAllTargets();
             }
             Map.ShowSelectionArrow();
         }
@@ -111,6 +98,19 @@ public class GameController : MonoBehaviour
             {
                 unit.Act();
             }
+        }
+    }
+
+    private void UpdateAllTargets()
+    {
+        // correcting targets
+        foreach (Unit unit in Player1Units)
+        {
+            unit.UpdateTarget();
+        }
+        foreach (Unit unit in Player2Units)
+        {
+            unit.UpdateTarget();
         }
     }
 
