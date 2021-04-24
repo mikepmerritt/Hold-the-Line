@@ -89,13 +89,13 @@ public class Map : MonoBehaviour
         // generating tiles using empty tile prefab
         if (AutomaticTileGrid) 
         {
-            for (int i = VerticalBuffer, y = 1; y <= StartHeight; i++, y++) 
+            for (int i = VerticalBuffer; i < MapHeight - VerticalBuffer; i++) 
             {
-                for (int j = HorizontalBuffer, x = 1; x <= StartWidth; j++, x++) 
+                for (int j = HorizontalBuffer; j < MapWidth - HorizontalBuffer; j++) 
                 {
                     LevelMap[i, j] = Instantiate(EmptyTilePrefab).GetComponent<Tile>();
                     Unit unitToPlace;
-                    if (Units.TryGetValue(new Point(x, y), out unitToPlace)) 
+                    if (Units.TryGetValue(new Point(j, i), out unitToPlace)) 
                     {
                         LevelMap[i, j].SetUnit(unitToPlace);
                         // Debug.Log("Successfully added " + LevelMap[i, j].GetUnit() + " at (" + x + "," + y + ").");
@@ -515,7 +515,7 @@ public class Map : MonoBehaviour
                 if (!(LockMap[row, col] == null))
                 {
                     LockMap[row, col].transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
-                    Debug.Log(LockMap[row, col].GetUnit());
+                    // Debug.Log(LockMap[row, col].GetUnit());
                     if (LockMap[row, col].GetUnit() != null)
                     {
                         LockMap[row, col].GetUnit().transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
