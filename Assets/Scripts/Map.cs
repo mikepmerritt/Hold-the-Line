@@ -121,6 +121,7 @@ public class Map : MonoBehaviour
                     Debug.LogError("A tile already exists at (" + LevelTiles[i].x + "," + LevelTiles[i].y + "), so another will not be placed.");
                 }
             }
+            UpdateDimensions();
         }
 
         // generate locked map
