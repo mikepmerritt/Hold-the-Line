@@ -523,7 +523,7 @@ public class Map : MonoBehaviour
                     if (LevelMap[row, col].GetUnit() != null)
                     {
                         LevelMap[row, col].GetUnit().transform.position = new Vector3(MinX + col * TileWidth, MaxY - row * TileHeight, 0f);
-                        LevelMap[row, col].GetUnit().UpdateLayer(1);
+                        LevelMap[row, col].GetUnit().UpdateLayer(2);
                     }
                 }
             }
