@@ -45,7 +45,7 @@ public abstract class Unit : MonoBehaviour
         if (direction == 'N')
         {
             Tile destination = Map.GetTileInComposite(Location.Y - 1, Location.X);
-            if (destination == null || destination.GetUnit() != null)
+            if (destination == null || destination.GetUnit() != null || Map.IsLocked(Location.Y - 1, Location.X))
             {
                 Debug.LogError("Cannot push into this location.");
                 return false;
@@ -64,7 +64,7 @@ public abstract class Unit : MonoBehaviour
         else if (direction == 'S')
         {
             Tile destination = Map.GetTileInComposite(Location.Y + 1, Location.X);
-            if (destination == null || destination.GetUnit() != null)
+            if (destination == null || destination.GetUnit() != null || Map.IsLocked(Location.Y + 1, Location.X))
             {
                 Debug.LogError("Cannot push into this location.");
                 return false;
@@ -83,7 +83,7 @@ public abstract class Unit : MonoBehaviour
         else if (direction == 'W')
         {
             Tile destination = Map.GetTileInComposite(Location.Y, Location.X - 1);
-            if (destination == null || destination.GetUnit() != null)
+            if (destination == null || destination.GetUnit() != null || Map.IsLocked(Location.Y, Location.X - 1))
             {
                 Debug.LogError("Cannot push into this location.");
                 return false;
@@ -102,7 +102,7 @@ public abstract class Unit : MonoBehaviour
         else if (direction == 'E')
         {
             Tile destination = Map.GetTileInComposite(Location.Y, Location.X + 1);
-            if (destination == null || destination.GetUnit() != null)
+            if (destination == null || destination.GetUnit() != null || Map.IsLocked(Location.Y, Location.X + 1))
             {
                 Debug.LogError("Cannot push into this location.");
                 return false;

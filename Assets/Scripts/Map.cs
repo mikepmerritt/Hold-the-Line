@@ -915,4 +915,9 @@ public class Map : MonoBehaviour
     {
         SelectionBox.SetActive(false);
     }
+
+    public bool IsLocked(int row, int col)
+    {
+        return LockMap[row, col] != null;
+    }
 }
