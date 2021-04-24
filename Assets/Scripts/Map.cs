@@ -109,11 +109,11 @@ public class Map : MonoBehaviour
                     if (Units.TryGetValue(new Point(LevelTiles[i].x, LevelTiles[i].y), out unitToPlace)) 
                     {
                         LevelMap[LevelTiles[i].x, LevelTiles[i].y].SetUnit(unitToPlace);
-                        Debug.Log("Successfully added " + LevelMap[LevelTiles[i].x, LevelTiles[i].y].GetUnit() + " at (" + LevelTiles[i].x + "," + LevelTiles[i].y + ").");
+                        //Debug.Log("Successfully added " + LevelMap[LevelTiles[i].x, LevelTiles[i].y].GetUnit() + " at (" + LevelTiles[i].x + "," + LevelTiles[i].y + ").");
                     }
                     else
                     {
-                        Debug.Log("Nothing found at (" + LevelTiles[i].x + "," + LevelTiles[i].y + ").");
+                        //Debug.Log("Nothing found at (" + LevelTiles[i].x + "," + LevelTiles[i].y + ").");
                     }
                 }
                 else
