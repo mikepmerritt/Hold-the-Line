@@ -29,8 +29,14 @@ public class Map : MonoBehaviour
     // selection arrow gameobject
     public GameObject SelectionArrow;
 
-    // list of lock tiles
-    public List<Vector2Int> LockedTiles;
+    // normal tile placement method (default automatic with no manual)
+    public bool AutomaticTileGrid;
+    public bool ManualTilePlacement;
+
+    // list of lock tiles and manual tiles
+    public List<Vector2Int> LockedTiles, LevelTiles;
+
+    
 
     private void Start()
     {
@@ -72,26 +78,54 @@ public class Map : MonoBehaviour
         Units = UnitsToAdd.BuildDictionary();
 
         // generating tiles using empty tile prefab
-        for (int i = VerticalBuffer, y = 1; y <= StartHeight; i++, y++) 
+        if (AutomaticTileGrid) 
         {
-            for (int j = HorizontalBuffer, x = 1; x <= StartWidth; j++, x++) 
+            for (int i = VerticalBuffer, y = 1; y <= StartHeight; i++, y++) 
             {
-                LevelMap[i, j] = Instantiate(EmptyTilePrefab).GetComponent<Tile>();
-                Unit unitToPlace;
-                if (Units.TryGetValue(new Point(x, y), out unitToPlace)) 
+                for (int j = HorizontalBuffer, x = 1; x <= StartWidth; j++, x++) 
                 {
-                    LevelMap[i, j].SetUnit(unitToPlace);
-                    // Debug.Log("Successfully added " + LevelMap[i, j].GetUnit() + " at (" + x + "," + y + ").");
+                    LevelMap[i, j] = Instantiate(EmptyTilePrefab).GetComponent<Tile>();
+                    Unit unitToPlace;
+                    if (Units.TryGetValue(new Point(x, y), out unitToPlace)) 
+                    {
+                        LevelMap[i, j].SetUnit(unitToPlace);
+                        // Debug.Log("Successfully added " + LevelMap[i, j].GetUnit() + " at (" + x + "," + y + ").");
+                    }
+                    else
+                    {
+                        // Debug.Log("Nothing found at (" + x + "," + y + ").");
+                    }
+                }
+            }
+        }
+        if (ManualTilePlacement)
+        {
+            for (int i = 0; i < LevelTiles.Count; i++)  
+            {
+                if(LevelMap[LevelTiles[i].x, LevelTiles[i].y] == null)
+                {
+                    LevelMap[LevelTiles[i].x, LevelTiles[i].y] = Instantiate(EmptyTilePrefab).GetComponent<Tile>();
+                    Unit unitToPlace;
+                    if (Units.TryGetValue(new Point(LevelTiles[i].x, LevelTiles[i].y), out unitToPlace)) 
+                    {
+                        LevelMap[LevelTiles[i].x, LevelTiles[i].y].SetUnit(unitToPlace);
+                        Debug.Log("Successfully added " + LevelMap[LevelTiles[i].x, LevelTiles[i].y].GetUnit() + " at (" + LevelTiles[i].x + "," + LevelTiles[i].y + ").");
+                    }
+                    else
+                    {
+                        Debug.Log("Nothing found at (" + LevelTiles[i].x + "," + LevelTiles[i].y + ").");
+                    }
                 }
                 else
                 {
-                    // Debug.Log("Nothing found at (" + x + "," + y + ").");
+                    Debug.LogError("A tile already exists at (" + LevelTiles[i].x + "," + LevelTiles[i].y + "), so another will not be placed.");
                 }
             }
         }
 
         // generate locked map
-        for (int i = 0; i < LockedTiles.Count; i++)  {
+        for (int i = 0; i < LockedTiles.Count; i++)  
+        {
             LockMap[LockedTiles[i].x, LockedTiles[i].y] = Instantiate(LockedTilePrefab).GetComponent<Tile>();
         }
 
@@ -166,7 +200,8 @@ public class Map : MonoBehaviour
         else
         {
             // check to make sure that the locked tiles permit the move
-            if(!TryConstructCompositeMap(row, -1, -1, 0)) {
+            if(!TryConstructCompositeMap(row, -1, -1, 0)) 
+            {
                 return false;
             }
             // shift the tile to the left of the current column into 
@@ -193,7 +228,8 @@ public class Map : MonoBehaviour
         else
         {
             // check to make sure that the locked tiles permit the move
-            if(!TryConstructCompositeMap(row, -1, 1, 0)) {
+            if(!TryConstructCompositeMap(row, -1, 1, 0)) 
+            {
                 return false;
             }
             // shift the tile to the right of the current column into 
@@ -220,7 +256,8 @@ public class Map : MonoBehaviour
         else
         {
             // check to make sure that the locked tiles permit the move
-            if(!TryConstructCompositeMap(-1, col, 0, -1)) {
+            if(!TryConstructCompositeMap(-1, col, 0, -1)) 
+            {
                 return false;
             }
             // shift the tile above the current row into 
@@ -247,7 +284,8 @@ public class Map : MonoBehaviour
         else
         {
             // check to make sure that the locked tiles permit the move
-            if(!TryConstructCompositeMap(-1, col, 0, 1)) {
+            if(!TryConstructCompositeMap(-1, col, 0, 1)) 
+            {
                 return false;
             }
             // shift the tile below the current row into 
@@ -539,16 +577,20 @@ public class Map : MonoBehaviour
         }
     }
 
-    public bool TryConstructCompositeMap(int row, int col, int dx, int dy) {
+    public bool TryConstructCompositeMap(int row, int col, int dx, int dy) 
+    {
         //Debug.LogWarning(LockMapToString());
         // a column is being shifted up or down, so check every element in the current column
-        if (dx == 0) {
-            for (int i = 0; i < MapHeight; i++) {
+        if (dx == 0) 
+        {
+            for (int i = 0; i < MapHeight; i++) 
+            {
                 //Debug.Log("Row: " + i + " Col: " + col);
                 if (LockMap[i, col] != null && LevelMap[i + dy, col] != null)
                 {
                     //Debug.Log("There was a tile stack.");
-                    if(LevelMap[i + dy, col].GetUnit() != null) {
+                    if(LevelMap[i + dy, col].GetUnit() != null) 
+                    {
                         Debug.LogError("Units cannot be moved over locked tiles.");
                         return false;
                     }
@@ -558,13 +600,16 @@ public class Map : MonoBehaviour
             return true;
         }
         // a row is being shifted left or right, so check every element in the current row
-        else if (dy == 0) {
-            for (int i = 0; i < MapWidth; i++) {
+        else if (dy == 0) 
+        {
+            for (int i = 0; i < MapWidth; i++) 
+            {
                 //Debug.Log("Row: " + row + " Col: " + i + " i+dx: " + (i+dx));
                 if (LockMap[row, i] != null && LevelMap[row, i + dx] != null)
                 {
                     //Debug.Log("There was a tile stack.");
-                    if(LevelMap[row, i + dx].GetUnit() != null) {
+                    if(LevelMap[row, i + dx].GetUnit() != null) 
+                    {
                         Debug.LogError("Units cannot be moved over locked tiles.");
                         return false;
                     }
@@ -577,7 +622,8 @@ public class Map : MonoBehaviour
         return false;
     }
 
-    public void ConstructCompositeMap() {
+    public void ConstructCompositeMap() 
+    {
         for (int row = 0; row < MapHeight; row++) 
         {
             for (int col = 0; col < MapWidth; col++)
