@@ -110,13 +110,13 @@ public class Map : MonoBehaviour
         {
             for (int i = 0; i < LevelTiles.Count; i++)  
             {
-                if(LevelMap[LevelTiles[i].x, LevelTiles[i].y] == null)
+                if(LevelMap[LevelTiles[i].y, LevelTiles[i].x] == null)
                 {
-                    LevelMap[LevelTiles[i].x, LevelTiles[i].y] = Instantiate(EmptyTilePrefab).GetComponent<Tile>();
+                    LevelMap[LevelTiles[i].y, LevelTiles[i].x] = Instantiate(EmptyTilePrefab).GetComponent<Tile>();
                     Unit unitToPlace;
-                    if (Units.TryGetValue(new Point(LevelTiles[i].x, LevelTiles[i].y), out unitToPlace)) 
+                    if (Units.TryGetValue(new Point(LevelTiles[i].y, LevelTiles[i].x), out unitToPlace)) 
                     {
-                        LevelMap[LevelTiles[i].x, LevelTiles[i].y].SetUnit(unitToPlace);
+                        LevelMap[LevelTiles[i].y, LevelTiles[i].x].SetUnit(unitToPlace);
                         //Debug.Log("Successfully added " + LevelMap[LevelTiles[i].x, LevelTiles[i].y].GetUnit() + " at (" + LevelTiles[i].x + "," + LevelTiles[i].y + ").");
                     }
                     else
@@ -135,7 +135,7 @@ public class Map : MonoBehaviour
         // generate locked map
         for (int i = 0; i < LockedTiles.Count; i++)  
         {
-            LockMap[LockedTiles[i].x, LockedTiles[i].y] = Instantiate(LockedTilePrefab).GetComponent<Tile>();
+            LockMap[LockedTiles[i].y, LockedTiles[i].x] = Instantiate(LockedTilePrefab).GetComponent<Tile>();
         }
 
         // print initial map 
