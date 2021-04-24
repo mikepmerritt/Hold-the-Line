@@ -13,6 +13,7 @@ public class UnitsToAdd
         Dictionary<Point, Unit> dictionary = new Dictionary<Point, Unit>();
         for (int i = 0; i < UnitTemplates.Length && i < Points.Length; i++) 
         {
+            UnitTemplates[i].SetLocation(Points[i]);
             dictionary.Add(Points[i], UnitTemplates[i].CreateUnit());
         }
         return dictionary;
