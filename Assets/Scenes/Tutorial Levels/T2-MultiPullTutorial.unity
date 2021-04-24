@@ -216,7 +216,7 @@ MonoBehaviour:
       Location:
         X: 1
         Y: 1
-      Direction: 87
+      Direction: 69
       Health: 2
       Team: 2
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
@@ -234,18 +234,11 @@ MonoBehaviour:
       Location:
         X: 3
         Y: 1
-      Direction: 87
+      Direction: 69
       Health: 2
       Team: 2
-    Points:
-    - X: 2
-      Y: 2
-    - X: 1
-      Y: 1
-    - X: 4
-      Y: 2
-    - X: 3
-      Y: 1
+  LockedUnitsToAdd:
+    UnitTemplates: []
   EmptyTilePrefab: {fileID: 2300288467195036540, guid: b7cb986b37623c749abd6d2e4f1fcb5c,
     type: 3}
   LockedTilePrefab: {fileID: 4316724894997702998, guid: 08e53229e22f08546ad310bed1056a8f,

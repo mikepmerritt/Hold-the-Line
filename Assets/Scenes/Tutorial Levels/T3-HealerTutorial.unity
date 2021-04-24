@@ -214,9 +214,9 @@ MonoBehaviour:
         type: 3}
       Sprite: {fileID: 21300000, guid: b25d49fc600f6f74aa35372f5eb2229e, type: 3}
       Location:
-        X: 4
+        X: 3
         Y: 4
-      Direction: 87
+      Direction: 78
       Health: 2
       Team: 1
   LockedUnitsToAdd:
