@@ -36,15 +36,16 @@ public class Map : MonoBehaviour
     // list of lock tiles and manual tiles
     public List<Vector2Int> LockedTiles, LevelTiles;
 
-    
+    // toggle for movement wrapping on the sides of the map (default false)
+    public bool SideWrappingMovement;
 
     private void Start()
     {
         // initialize dimensions
         Width = StartWidth;
         Height = StartHeight;
-        MapWidth = StartWidth + 2 * VerticalBuffer;
-        MapHeight = StartHeight + 2 * HorizontalBuffer;
+        MapWidth = StartWidth + 2 * HorizontalBuffer;
+        MapHeight = StartHeight + 2 * VerticalBuffer;
 
         // tile properties
         TileWidth = EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.max.x - EmptyTilePrefab.GetComponent<SpriteRenderer>().bounds.min.x;
@@ -195,8 +196,30 @@ public class Map : MonoBehaviour
         // if a tile is in the rightmost spot
         if (LevelMap[row, MapWidth - 1] != null) 
         {
-            Debug.LogError("Invalid shift, no buffer remaining.");
-            return false;
+            if(SideWrappingMovement)
+            {
+                Tile temp = LevelMap[row, MapWidth - 1];
+                // check to make sure that the locked tiles permit the move
+                if(!TryConstructCompositeMap(row, -1, -1, 0)) 
+                {
+                    return false;
+                }
+                // shift the tile to the left of the current column into 
+                // the current column, starting with the rightmost column
+                for (int col = MapWidth - 1; col > 0; col--)
+                {
+                    LevelMap[row, col] = LevelMap[row, col - 1];
+                }
+                LevelMap[row, 0] = temp; // clear out leftmost tile leftover
+                UpdateDimensions();
+                ConstructCompositeMap();
+                return true;
+            }
+            else
+            {
+                Debug.LogError("Invalid shift, no buffer remaining.");
+                return false;
+            }
         }
         else
         {
@@ -223,8 +246,30 @@ public class Map : MonoBehaviour
         // if a tile is in the leftmost spot
         if (LevelMap[row, 0] != null) 
         {
-            Debug.LogError("Invalid shift, no buffer remaining.");
-            return false;
+            if (SideWrappingMovement)
+            {
+                Tile temp = LevelMap[row, 0];
+                // check to make sure that the locked tiles permit the move
+                if(!TryConstructCompositeMap(row, -1, 1, 0)) 
+                {
+                    return false;
+                }
+                // shift the tile to the right of the current column into 
+                // the current column, starting with the leftmost column
+                for (int col = 0; col < MapWidth - 1; col++)
+                {
+                    LevelMap[row, col] = LevelMap[row, col + 1];
+                }
+                LevelMap[row, MapWidth - 1] = temp; // clear out rightmost tile leftover
+                UpdateDimensions();
+                ConstructCompositeMap();
+                return true;
+            }
+            else
+            {
+                Debug.LogError("Invalid shift, no buffer remaining.");
+                return false;
+            }
         }
         else
         {
@@ -251,8 +296,30 @@ public class Map : MonoBehaviour
         // if a tile is in the lowest spot
         if (LevelMap[MapHeight - 1, col] != null) 
         {
-            Debug.LogError("Invalid shift, no buffer remaining.");
-            return false;
+            if(SideWrappingMovement)
+            {
+                Tile temp = LevelMap[MapHeight - 1, col];
+                // check to make sure that the locked tiles permit the move
+                if(!TryConstructCompositeMap(-1, col, 0, -1)) 
+                {
+                    return false;
+                }
+                // shift the tile above the current row into 
+                // the current row, starting with the bottom row
+                for (int row = MapHeight - 1; row > 0; row--)
+                {
+                    LevelMap[row, col] = LevelMap[row - 1, col];
+                }
+                LevelMap[0, col] = temp; // clear out highest tile leftover
+                UpdateDimensions();
+                ConstructCompositeMap();
+                return true;
+            }
+            else
+            {
+                Debug.LogError("Invalid shift, no buffer remaining.");
+                return false;
+            }
         }
         else
         {
@@ -279,8 +346,30 @@ public class Map : MonoBehaviour
         // if a tile is in the highest spot
         if (LevelMap[0, col] != null) 
         {
-            Debug.LogError("Invalid shift, no buffer remaining.");
-            return false;
+            if(SideWrappingMovement)
+            {
+                Tile temp = LevelMap[0, col];
+                // check to make sure that the locked tiles permit the move
+                if(!TryConstructCompositeMap(-1, col, 0, 1)) 
+                {
+                    return false;
+                }
+                // shift the tile below the current row into 
+                // the current row, starting with the top row
+                for (int row = 0; row < MapHeight - 1; row++)
+                {
+                    LevelMap[row, col] = LevelMap[row + 1, col];
+                }
+                LevelMap[MapHeight - 1, col] = temp; // clear out lowest tile leftover
+                UpdateDimensions();
+                ConstructCompositeMap();
+                return true;
+            }
+            else
+            {
+                Debug.LogError("Invalid shift, no buffer remaining.");
+                return false;
+            }
         }
         else
         {

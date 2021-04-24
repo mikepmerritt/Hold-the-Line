@@ -203,6 +203,7 @@ MonoBehaviour:
   - {x: 4, y: 0}
   - {x: 4, y: 2}
   - {x: 4, y: 4}
+  SideWrappingMovement: 1
 --- !u!4 &414157295
 Transform:
   m_ObjectHideFlags: 0
