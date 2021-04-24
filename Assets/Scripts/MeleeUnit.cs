@@ -29,7 +29,10 @@ public class MeleeUnit : Unit
         Tile targetTile = Map.GetTileInComposite(Target.Y, Target.X); // fetch target tile to check for units
         if (targetTile != null && targetTile.GetUnit() != null)
         {
-            targetTile.GetUnit().Health--;
+            if (targetTile.GetUnit().Team != Team)
+            {
+                targetTile.GetUnit().Health--;
+            }
         }
     }
 }
