@@ -26,6 +26,10 @@ public class RangedUnit : Unit
 
     public override void Act() 
     {
-        // TODO: Implement
+        Tile targetTile = Map.GetTileInComposite(Target.Y, Target.X); // fetch target tile to check for units
+        if (targetTile != null && targetTile.GetUnit() != null)
+        {
+            targetTile.GetUnit().Health--;
+        }
     }
 }

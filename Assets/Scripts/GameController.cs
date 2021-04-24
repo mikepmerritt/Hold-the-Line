@@ -23,6 +23,18 @@ public class GameController : MonoBehaviour
         if (Player1Units == null && Player2Units == null)
         {
             Map.CorrectAllUnitPositions(out Player1Units, out Player2Units);
+            
+            Map.ConstructCompositeMap();
+
+            // correcting targets before showing
+            foreach (Unit unit in Player1Units)
+            {
+                unit.UpdateTarget();
+            }
+            foreach (Unit unit in Player2Units)
+            {
+                unit.UpdateTarget();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -86,7 +98,20 @@ public class GameController : MonoBehaviour
         {
             // not implemented yet
         }
+
+        // THIS IS DEBUG ONLY
+        // REMOVE BEFORE SUBMISSION
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            foreach (Unit unit in Player1Units)
+            {
+                unit.Act();
+            }
+            foreach (Unit unit in Player2Units)
+            {
+                unit.Act();
+            }
+        }
     }
-    
 
 }
