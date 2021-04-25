@@ -204,7 +204,8 @@ MonoBehaviour:
     UnitTemplates:
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
         type: 3}
-      Sprite: {fileID: 21300000, guid: c3c481cd165f19847bec37999419b4ba, type: 3}
+      Sprite: {fileID: 3767823586204105355, guid: 09905e2c476c75549896f501d9c76c77,
+        type: 3}
       Location:
         X: 1
         Y: 2
@@ -215,7 +216,8 @@ MonoBehaviour:
     UnitTemplates:
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
         type: 3}
-      Sprite: {fileID: 21300000, guid: c3c481cd165f19847bec37999419b4ba, type: 3}
+      Sprite: {fileID: -5575664341677479434, guid: be955a67bb83bce4b83b2dcdbc5d48d8,
+        type: 3}
       Location:
         X: 1
         Y: 1
