@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GameController : MonoBehaviour
     // UI
     private OutputBox Output;
     public GameObject WinButton;
+    public TMP_Text TurnCounter;
 
     // Build indexes
     private const int TutorialSelect = 2;
@@ -33,6 +35,7 @@ public class GameController : MonoBehaviour
         SelectedUnit = 0;
         TurnOver = false;
         Output = FindObjectOfType<OutputBox>();
+        TurnCounter.text = "Turns Remaining: " + GetTurnsRemaining();
     }
 
     private void Update() 
@@ -192,6 +195,8 @@ public class GameController : MonoBehaviour
                 TurnsRemaining = 0;
                 TurnOver = true;
             }
+
+            TurnCounter.text = "Turns Remaining: " + GetTurnsRemaining();
         }
         else if (TurnsRemaining == 0)
         {
@@ -203,6 +208,8 @@ public class GameController : MonoBehaviour
             {
                 Output.ShowWarning("You are out of moves. Please retry.");
             }
+
+            TurnCounter.text = "Turns Remaining: " + GetTurnsRemaining();
         }
     }
 
