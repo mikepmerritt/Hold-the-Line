@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Gameplay Levels/M2-RangedBattlefield.unity
     guid: c23cd7f95e46432418de73843a505da8
+  - enabled: 1
+    path: Assets/Scenes/Gameplay Levels/M3-RangedSolo.unity
+    guid: 275819c11fca4eb43ab21b25eb720bbc
   m_configObjects: {}
