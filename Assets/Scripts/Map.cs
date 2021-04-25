@@ -225,6 +225,11 @@ public class Map : MonoBehaviour
             if(SideWrappingMovement)
             {
                 Tile temp = LevelMap[row, MapWidth - 1];
+                if(LockMap[row, 0] != null && temp.GetUnit() != null)
+                {
+                    Output.ShowError("Units cannot be wrapped around to locked tiles.");
+                    return false; // the end of the column is a lock tile, so the wrap cannot occur
+                }
                 // check to make sure that the locked tiles permit the move
                 if(!TryConstructCompositeMap(row, -1, -1, 0)) 
                 {
@@ -275,6 +280,11 @@ public class Map : MonoBehaviour
             if (SideWrappingMovement)
             {
                 Tile temp = LevelMap[row, 0];
+                if(LockMap[row, MapWidth - 1] != null && temp.GetUnit() != null)
+                {
+                    Output.ShowError("Units cannot be wrapped around to locked tiles.");
+                    return false; // the end of the column is a lock tile, so the wrap cannot occur
+                }
                 // check to make sure that the locked tiles permit the move
                 if(!TryConstructCompositeMap(row, -1, 1, 0)) 
                 {
@@ -325,6 +335,11 @@ public class Map : MonoBehaviour
             if(SideWrappingMovement)
             {
                 Tile temp = LevelMap[MapHeight - 1, col];
+                if(LockMap[0, col] != null && temp.GetUnit() != null)
+                {
+                    Output.ShowError("Units cannot be wrapped around to locked tiles.");
+                    return false; // the end of the column is a lock tile, so the wrap cannot occur
+                }
                 // check to make sure that the locked tiles permit the move
                 if(!TryConstructCompositeMap(-1, col, 0, -1)) 
                 {
@@ -375,6 +390,11 @@ public class Map : MonoBehaviour
             if(SideWrappingMovement)
             {
                 Tile temp = LevelMap[0, col];
+                if(LockMap[MapHeight - 1, col] != null && temp.GetUnit() != null)
+                {
+                    Output.ShowError("Units cannot be wrapped around to locked tiles.");
+                    return false; // the end of the column is a lock tile, so the wrap cannot occur
+                }
                 // check to make sure that the locked tiles permit the move
                 if(!TryConstructCompositeMap(-1, col, 0, 1)) 
                 {
@@ -724,6 +744,24 @@ public class Map : MonoBehaviour
                         return false;
                     }
                 }
+                /*
+                else if (i + dy < 0)
+                {
+                    if(LockMap[MapHeight - 1, col] != null)
+                    {
+                        Output.ShowError("Units cannot be moved over locked tiles.");
+                        return false;
+                    }
+                }
+                else if (i + dy >= MapHeight)
+                {
+                    if(LockMap[0, col] != null)
+                    {
+                        Output.ShowError("Units cannot be moved over locked tiles.");
+                        return false;
+                    }
+                }
+                */
             }
             //Debug.Log("The move was valid.");
             return true;
