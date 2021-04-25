@@ -200,6 +200,11 @@ public class GameController : MonoBehaviour
                 TurnOver = true;
             }
 
+            if (SelectedUnit >= Player1Units.Count)
+            {
+                SelectedUnit = 0;
+            }
+
             TurnCounter.text = "Turns Remaining: " + GetTurnsRemaining();
         }
         else if (TurnsRemaining == 0)

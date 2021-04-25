@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player1Units: []
   Player2Units: []
-  TurnsRemaining: 20
+  TurnsRemaining: 10
   WinButton: {fileID: 1438522491}
   TurnCounter: {fileID: 774172510}
 --- !u!4 &214839501
@@ -206,14 +206,14 @@ MonoBehaviour:
   CenterY: 0
   UnitsToAdd:
     UnitTemplates:
-    - UnitModel: {fileID: 2348685811429869319, guid: 410f97fdf5665624682274da4954b14c,
+    - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
         type: 3}
-      Sprite: {fileID: -2382969447008639532, guid: 09905e2c476c75549896f501d9c76c77,
+      Sprite: {fileID: -1892529311848039558, guid: 09905e2c476c75549896f501d9c76c77,
         type: 3}
       Location:
-        X: 1
+        X: 2
         Y: 4
-      Direction: 83
+      Direction: 69
       Health: 1
       Team: 1
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
@@ -226,16 +226,16 @@ MonoBehaviour:
       Direction: 78
       Health: 1
       Team: 1
-    - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
+    - UnitModel: {fileID: 2348685811429869319, guid: 410f97fdf5665624682274da4954b14c,
         type: 3}
-      Sprite: {fileID: -1892529311848039558, guid: 09905e2c476c75549896f501d9c76c77,
+      Sprite: {fileID: -7136171776675888570, guid: be955a67bb83bce4b83b2dcdbc5d48d8,
         type: 3}
       Location:
-        X: 2
-        Y: 4
-      Direction: 69
+        X: 4
+        Y: 3
+      Direction: 83
       Health: 1
-      Team: 1
+      Team: 2
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
         type: 3}
       Sprite: {fileID: -3136183837110506505, guid: be955a67bb83bce4b83b2dcdbc5d48d8,
@@ -276,16 +276,6 @@ MonoBehaviour:
       Direction: 87
       Health: 1
       Team: 2
-    - UnitModel: {fileID: 2348685811429869319, guid: 410f97fdf5665624682274da4954b14c,
-        type: 3}
-      Sprite: {fileID: -7136171776675888570, guid: be955a67bb83bce4b83b2dcdbc5d48d8,
-        type: 3}
-      Location:
-        X: 4
-        Y: 3
-      Direction: 83
-      Health: 1
-      Team: 2
   LockedUnitsToAdd:
     UnitTemplates: []
   EmptyTilePrefab: {fileID: 2300288467195036540, guid: b7cb986b37623c749abd6d2e4f1fcb5c,
@@ -295,9 +285,7 @@ MonoBehaviour:
   SelectionArrow: {fileID: 774332222}
   AutomaticTileGrid: 1
   ManualTilePlacement: 0
-  LockedTiles:
-  - {x: 4, y: 0}
-  - {x: 4, y: 1}
+  LockedTiles: []
   LevelTiles: []
   SideWrappingMovement: 1
   Player1Overlay: {fileID: 2450119427014163883, guid: 7bf2ee46a18bfd345adc6d521907481d,
@@ -502,6 +490,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5497247112249135426, guid: a01d1f1d57c63c94ca14618835ef59cf,
+        type: 3}
+      propertyPath: m_text
+      value: Back to Level Select
+      objectReference: {fileID: 0}
     - target: {fileID: 6547611406844964235, guid: a01d1f1d57c63c94ca14618835ef59cf,
         type: 3}
       propertyPath: m_text
