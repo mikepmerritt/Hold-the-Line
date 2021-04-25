@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
 
     private char PullDirection;
     private Map Map;
-    private List<Unit> Player1Units, Player2Units; 
+    public List<Unit> Player1Units, Player2Units; 
     private bool IsPulling, IsPushing, ShowOverlay;
     private int SelectedUnit;
 
@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     // Build indexes
     private const int TutorialSelect = 2;
     private const int MainMenu = 0;
+    private const int LevelSelect = 3;
 
     private void Start()
     {
@@ -36,6 +37,9 @@ public class GameController : MonoBehaviour
         TurnOver = false;
         Output = FindObjectOfType<OutputBox>();
         TurnCounter.text = "Turns Remaining: " + GetTurnsRemaining();
+
+        Player1Units = null;
+        Player2Units = null;
     }
 
     private void Update() 
@@ -245,6 +249,11 @@ public class GameController : MonoBehaviour
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene(MainMenu);
+    }
+
+    public void ReturnToLevelMenu()
+    {
+        SceneManager.LoadScene(LevelSelect);
     }
 
 }
