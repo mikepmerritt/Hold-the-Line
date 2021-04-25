@@ -179,7 +179,17 @@ MonoBehaviour:
       Health: 2
       Team: 2
   LockedUnitsToAdd:
-    UnitTemplates: []
+    UnitTemplates:
+    - UnitModel: {fileID: 2348685811429869319, guid: 410f97fdf5665624682274da4954b14c,
+        type: 3}
+      Sprite: {fileID: 5772902362843008232, guid: 09905e2c476c75549896f501d9c76c77,
+        type: 3}
+      Location:
+        X: 4
+        Y: 2
+      Direction: 78
+      Health: 1
+      Team: 1
   EmptyTilePrefab: {fileID: 2300288467195036540, guid: b7cb986b37623c749abd6d2e4f1fcb5c,
     type: 3}
   LockedTilePrefab: {fileID: 4316724894997702998, guid: 08e53229e22f08546ad310bed1056a8f,
@@ -187,7 +197,9 @@ MonoBehaviour:
   SelectionArrow: {fileID: 1402887116}
   AutomaticTileGrid: 0
   ManualTilePlacement: 1
-  LockedTiles: []
+  LockedTiles:
+  - {x: 4, y: 1}
+  - {x: 4, y: 2}
   LevelTiles:
   - {x: 0, y: 0}
   - {x: 0, y: 2}
@@ -197,6 +209,7 @@ MonoBehaviour:
   - {x: 2, y: 0}
   - {x: 2, y: 2}
   - {x: 2, y: 4}
+  - {x: 4, y: 3}
   SideWrappingMovement: 1
   Player1Overlay: {fileID: 2450119427014163883, guid: 7bf2ee46a18bfd345adc6d521907481d,
     type: 3}
