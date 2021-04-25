@@ -649,24 +649,25 @@ public class Map : MonoBehaviour
         }
     }
 
-    public void PullSelected()
+    public bool PullSelected()
     {
         if (PullLeft)
         {
-            ShiftRowLeft(Row);
+            return ShiftRowLeft(Row);
         }
         else if (PullRight)
         {
-            ShiftRowRight(Row);
+            return ShiftRowRight(Row);
         }
         if (PullDown)
         {
-            ShiftColumnDown(Column);
+            return ShiftColumnDown(Column);
         }
         if (PullUp)
         {
-            ShiftColumnUp(Column);
+            return ShiftColumnUp(Column);
         }
+        return false;
     }
 
     public void ShowSelectionArrow()

@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f80ebdeb9b3ff64097b25ed641aa98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TurnsRemaining: 1
 --- !u!4 &214839501
 Transform:
   m_ObjectHideFlags: 0
@@ -162,7 +163,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &414157293
 GameObject:
@@ -217,7 +218,7 @@ MonoBehaviour:
         X: 1
         Y: 1
       Direction: 69
-      Health: 2
+      Health: 1
       Team: 2
   LockedUnitsToAdd:
     UnitTemplates: []
@@ -360,7 +361,7 @@ PrefabInstance:
     - target: {fileID: 6858592512521953128, guid: d7441860890a7ff4686cda460d97291e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6858592512521953128, guid: d7441860890a7ff4686cda460d97291e,
         type: 3}
