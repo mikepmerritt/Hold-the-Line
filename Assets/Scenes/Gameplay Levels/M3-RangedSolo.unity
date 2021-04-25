@@ -498,12 +498,12 @@ PrefabInstance:
     - target: {fileID: 6547611407304441845, guid: a01d1f1d57c63c94ca14618835ef59cf,
         type: 3}
       propertyPath: m_text
-      value: 
+      value: One ranger versus an army. Don't miss!
       objectReference: {fileID: 0}
     - target: {fileID: 6547611407304441845, guid: a01d1f1d57c63c94ca14618835ef59cf,
         type: 3}
       propertyPath: m_fontSize
-      value: 36
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 6547611407494979486, guid: a01d1f1d57c63c94ca14618835ef59cf,
         type: 3}
