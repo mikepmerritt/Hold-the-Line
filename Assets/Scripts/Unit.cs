@@ -48,7 +48,7 @@ public abstract class Unit : MonoBehaviour
     {
         if (Map.IsLocked(Location.Y, Location.X))
         {
-            Debug.LogError("The unit is on a locked tile and cannot be pushed.");
+            Output.ShowError("The unit is on a locked tile and cannot be pushed.");
             return false;
         }
 
