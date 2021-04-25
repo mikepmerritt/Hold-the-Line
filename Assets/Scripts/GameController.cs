@@ -167,19 +167,21 @@ public class GameController : MonoBehaviour
             // update lists
             Map.CorrectAllUnitPositions(out Player1Units, out Player2Units);
 
+            TurnOver = false; // set turn over to false only if turns are left
+
             // check win conditions
             if (Player2Units.Count == 0) 
             {
                 Debug.Log("You won!");
                 TurnsRemaining = 0;
+                TurnOver = true;
             }
             if (Player1Units.Count == 0)
             {
                 Debug.LogWarning("You lost!");
                 TurnsRemaining = 0;
+                TurnOver = true;
             }
-
-            TurnOver = false; // set turn over to false only if turns are left
         }
         else if (TurnsRemaining == 0)
         {
