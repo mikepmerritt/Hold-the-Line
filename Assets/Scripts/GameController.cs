@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -16,6 +17,15 @@ public class GameController : MonoBehaviour
     public int TurnsRemaining;
     private bool TurnOver;
 
+    // UI
+    private OutputBox Output;
+    public GameObject WinButton;
+    public TMP_Text TurnCounter;
+
+    // Build indexes
+    private const int TutorialSelect = 2;
+    private const int MainMenu = 0;
+
     private void Start()
     {
         Map = FindObjectOfType<Map>();
@@ -24,6 +34,8 @@ public class GameController : MonoBehaviour
         ShowOverlay = false;
         SelectedUnit = 0;
         TurnOver = false;
+        Output = FindObjectOfType<OutputBox>();
+        TurnCounter.text = "Turns Remaining: " + GetTurnsRemaining();
     }
 
     private void Update() 
@@ -172,16 +184,19 @@ public class GameController : MonoBehaviour
             // check win conditions
             if (Player2Units.Count == 0) 
             {
-                Debug.Log("You won!");
+                Output.ShowText("You won!");
+                WinButton.SetActive(true);
                 TurnsRemaining = 0;
                 TurnOver = true;
             }
             if (Player1Units.Count == 0)
             {
-                Debug.LogWarning("You lost!");
+                Output.ShowWarning("You lost!");
                 TurnsRemaining = 0;
                 TurnOver = true;
             }
+
+            TurnCounter.text = "Turns Remaining: " + GetTurnsRemaining();
         }
         else if (TurnsRemaining == 0)
         {
@@ -191,14 +206,10 @@ public class GameController : MonoBehaviour
             TurnsRemaining--;
             if (Player2Units.Count != 0)
             {
-                Debug.LogWarning("You are out of moves. Please retry.");
+                Output.ShowWarning("You are out of moves. Please retry.");
             }
-        }
 
-        // reload level
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            TurnCounter.text = "Turns Remaining: " + GetTurnsRemaining();
         }
     }
 
@@ -218,6 +229,22 @@ public class GameController : MonoBehaviour
     public int GetTurnsRemaining()
     {
         return Mathf.Max(0, TurnsRemaining);
+    }
+
+    public void ResetLevel()
+    {
+        // reload current level
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ReturnToTutorialMenu()
+    {
+        SceneManager.LoadScene(TutorialSelect);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene(MainMenu);
     }
 
 }
