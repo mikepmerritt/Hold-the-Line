@@ -159,8 +159,8 @@ public class GameController : MonoBehaviour
                 unit.Act();
             }
 
-            // clear out player 2's dead units
-            foreach (Unit unit in Player2Units)
+            // clear out player 1's dead units
+            foreach (Unit unit in Player1Units)
             {
                 unit.Clear();
             }
