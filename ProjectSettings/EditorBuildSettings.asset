@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Tutorial Levels/T1-NormalPullTutorial.unity
+    guid: 738b53e193fc6ac44a0ddb0a3fb9de7d
+  - enabled: 1
+    path: Assets/Scenes/Tutorial Levels/T2-MultiPullTutorial.unity
+    guid: 1b1df40073c048e4a80ca1bfeb1496f7
+  - enabled: 1
+    path: Assets/Scenes/Tutorial Levels/T3-HealerTutorial.unity
+    guid: 7305f00d99a8bb5438de4ea6f2ee348c
+  - enabled: 1
+    path: Assets/Scenes/Tutorial Levels/T4-WrapPullTutorial.unity
+    guid: 6701d75af45da5b4a9ad4d1f1386a41d
   m_configObjects: {}
