@@ -273,7 +273,8 @@ MonoBehaviour:
     UnitTemplates:
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
         type: 3}
-      Sprite: {fileID: 21300000, guid: c3c481cd165f19847bec37999419b4ba, type: 3}
+      Sprite: {fileID: -2882050743948312577, guid: 09905e2c476c75549896f501d9c76c77,
+        type: 3}
       Location:
         X: 3
         Y: 3
@@ -282,7 +283,8 @@ MonoBehaviour:
       Team: 1
     - UnitModel: {fileID: 2348685811429869319, guid: 410f97fdf5665624682274da4954b14c,
         type: 3}
-      Sprite: {fileID: 21300000, guid: b25d49fc600f6f74aa35372f5eb2229e, type: 3}
+      Sprite: {fileID: 5772902362843008232, guid: 09905e2c476c75549896f501d9c76c77,
+        type: 3}
       Location:
         X: 3
         Y: 4
@@ -293,7 +295,8 @@ MonoBehaviour:
     UnitTemplates:
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
         type: 3}
-      Sprite: {fileID: 21300000, guid: c3c481cd165f19847bec37999419b4ba, type: 3}
+      Sprite: {fileID: 1392045067509243176, guid: be955a67bb83bce4b83b2dcdbc5d48d8,
+        type: 3}
       Location:
         X: 2
         Y: 2
@@ -302,7 +305,8 @@ MonoBehaviour:
       Team: 2
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
         type: 3}
-      Sprite: {fileID: 21300000, guid: c3c481cd165f19847bec37999419b4ba, type: 3}
+      Sprite: {fileID: -3136183837110506505, guid: be955a67bb83bce4b83b2dcdbc5d48d8,
+        type: 3}
       Location:
         X: 3
         Y: 1
