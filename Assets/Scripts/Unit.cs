@@ -123,4 +123,16 @@ public abstract class Unit : MonoBehaviour
             return false;
         }
     }
+
+    public void Clear() 
+    {
+        if (Health == 0)
+        {
+            Tile location = Map.GetTileInComposite(Location.Y, Location.X);
+            location.RemoveUnit();
+            transform.position = new Vector3(0f, 0f, -20f); // hide behind camera
+            Map.DisplayMap();
+            Destroy(gameObject);
+        }
+    }
 }

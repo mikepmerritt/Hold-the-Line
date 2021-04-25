@@ -152,6 +152,47 @@ public class GameController : MonoBehaviour
             Map.HideSelectionArrow();
             Map.HideSelectionBox();
             TurnsRemaining--;
+
+            // end player 1 turn
+            foreach (Unit unit in Player1Units)
+            {
+                unit.Act();
+            }
+
+            // clear out player 2's dead units
+            foreach (Unit unit in Player2Units)
+            {
+                unit.Clear();
+            }
+            // update lists
+            Map.CorrectAllUnitPositions(out Player1Units, out Player2Units);
+
+            // end player 2 turn
+            foreach(Unit unit in Player2Units)
+            {
+                unit.Act();
+            }
+
+            // clear out player 2's dead units
+            foreach (Unit unit in Player2Units)
+            {
+                unit.Clear();
+            }
+            // update lists
+            Map.CorrectAllUnitPositions(out Player1Units, out Player2Units);
+
+            // check win conditions
+            if (Player2Units.Count == 0) 
+            {
+                Debug.Log("You won!");
+                TurnsRemaining = 0;
+            }
+            if (Player1Units.Count == 0)
+            {
+                Debug.LogWarning("You lost!");
+                TurnsRemaining = 0;
+            }
+
             TurnOver = false; // set turn over to false only if turns are left
         }
         else if (TurnsRemaining == 0)
@@ -160,7 +201,10 @@ public class GameController : MonoBehaviour
             Map.HideSelectionBox();
             TurnOver = true;
             TurnsRemaining--;
-            Debug.LogWarning("You are out of moves. Please retry.");
+            if (Player2Units.Count != 0)
+            {
+                Debug.LogWarning("You are out of moves. Please retry.");
+            }
         }
 
         // reload level
