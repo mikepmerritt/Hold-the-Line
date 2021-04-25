@@ -133,20 +133,6 @@ public class GameController : MonoBehaviour
             }
         }
 
-        // THIS IS DEBUG ONLY
-        // REMOVE BEFORE SUBMISSION
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            foreach (Unit unit in Player1Units)
-            {
-                unit.Act();
-            }
-            foreach (Unit unit in Player2Units)
-            {
-                unit.Act();
-            }
-        }
-
         if (TurnOver && TurnsRemaining > 0)
         {
             Map.HideSelectionArrow();
