@@ -249,13 +249,13 @@ PrefabInstance:
       value: 'Try pulling a row of the board.
 
         To do this, press Q and E
-        to navigate clockwise, and then press space to pull when the arrow is pointing
-        to the row you want.'
+        to navigate clockwise and counterclockwise, and then press space to pull
+        when the arrow is pointing to the row you want.'
       objectReference: {fileID: 0}
     - target: {fileID: 6547611407304441845, guid: a01d1f1d57c63c94ca14618835ef59cf,
         type: 3}
       propertyPath: m_fontSize
-      value: 15.5
+      value: 13.35
       objectReference: {fileID: 0}
     - target: {fileID: 6547611407494979486, guid: a01d1f1d57c63c94ca14618835ef59cf,
         type: 3}
