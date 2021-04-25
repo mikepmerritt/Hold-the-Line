@@ -198,8 +198,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartWidth: 2
   StartHeight: 2
-  HorizontalBuffer: 1
-  VerticalBuffer: 1
+  HorizontalBuffer: 0
+  VerticalBuffer: 0
   CenterX: 0
   CenterY: 0
   UnitsToAdd:
@@ -209,8 +209,8 @@ MonoBehaviour:
       Sprite: {fileID: -2882050743948312577, guid: 09905e2c476c75549896f501d9c76c77,
         type: 3}
       Location:
-        X: 2
-        Y: 2
+        X: 1
+        Y: 1
       Direction: 78
       Health: 2
       Team: 1
@@ -219,8 +219,8 @@ MonoBehaviour:
       Sprite: {fileID: 5286816635897297121, guid: be955a67bb83bce4b83b2dcdbc5d48d8,
         type: 3}
       Location:
-        X: 1
-        Y: 1
+        X: 0
+        Y: 0
       Direction: 69
       Health: 1
       Team: 2
