@@ -46,6 +46,12 @@ public abstract class Unit : MonoBehaviour
 
     public virtual bool Push(char direction)
     {
+        if (Map.IsLocked(Location.Y, Location.X))
+        {
+            Debug.LogError("The unit is on a locked tile and cannot be pushed.");
+            return false;
+        }
+
         if (direction == 'N')
         {
             Tile destination = Map.GetTileInComposite(Location.Y - 1, Location.X);
