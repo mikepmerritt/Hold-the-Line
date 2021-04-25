@@ -715,7 +715,7 @@ public class Map : MonoBehaviour
             for (int i = 0; i < MapHeight; i++) 
             {
                 //Debug.Log("Row: " + i + " Col: " + col);
-                if (LockMap[i, col] != null && LevelMap[i + dy, col] != null)
+                if (LockMap[i, col] != null && i + dy >= 0 && i + dy < MapHeight && LevelMap[i + dy, col] != null)
                 {
                     //Debug.Log("There was a tile stack.");
                     if(LevelMap[i + dy, col].GetUnit() != null) 
@@ -734,7 +734,7 @@ public class Map : MonoBehaviour
             for (int i = 0; i < MapWidth; i++) 
             {
                 //Debug.Log("Row: " + row + " Col: " + i + " i+dx: " + (i+dx));
-                if (LockMap[row, i] != null && LevelMap[row, i + dx] != null)
+                if (LockMap[row, i] != null && i + dx >= 0 && i + dx < MapWidth && LevelMap[row, i + dx] != null)
                 {
                     //Debug.Log("There was a tile stack.");
                     if(LevelMap[row, i + dx].GetUnit() != null) 
