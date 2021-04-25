@@ -681,22 +681,22 @@ public class Map : MonoBehaviour
         SelectionArrow.SetActive(true);
         if (PullLeft)
         {
-            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 0f);
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 180f);
             SelectionArrow.transform.position = new Vector3(MinX - TileWidth, MaxY - Row * TileHeight, 0f);
         }
         else if (PullRight)
         {
-            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 180f);
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 0f);
             SelectionArrow.transform.position = new Vector3(MaxX + TileWidth, MaxY - Row * TileHeight, 0f);
         }
         else if (PullDown)
         {
-            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 90f);
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 270f);
             SelectionArrow.transform.position = new Vector3(MinX + Column * TileWidth, MinY - TileHeight, 0f);
         }
         else if (PullUp)
         {
-            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 270f);
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 90f);
             SelectionArrow.transform.position = new Vector3(MinX + Column * TileWidth, MaxY + TileHeight, 0f);
         }
     }
