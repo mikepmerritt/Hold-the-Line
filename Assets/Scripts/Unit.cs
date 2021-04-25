@@ -136,7 +136,7 @@ public abstract class Unit : MonoBehaviour
 
     public void Clear() 
     {
-        if (Health == 0)
+        if (Health <= 0)
         {
             Tile location = Map.GetTileInComposite(Location.Y, Location.X);
             location.RemoveUnit();

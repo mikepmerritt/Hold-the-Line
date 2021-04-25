@@ -200,6 +200,7 @@ MonoBehaviour:
   LockedTiles:
   - {x: 4, y: 1}
   - {x: 4, y: 2}
+  - {x: 0, y: 0}
   LevelTiles:
   - {x: 0, y: 0}
   - {x: 0, y: 2}
@@ -492,7 +493,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f80ebdeb9b3ff64097b25ed641aa98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player1Units: []
+  Player2Units: []
   TurnsRemaining: 100
+  WinButton: {fileID: 0}
+  TurnCounter: {fileID: 0}
 --- !u!4 &2042557231
 Transform:
   m_ObjectHideFlags: 0
