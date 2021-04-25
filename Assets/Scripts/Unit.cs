@@ -11,6 +11,11 @@ public abstract class Unit : MonoBehaviour
     public int Health, Team;
     protected Map Map;
 
+    // Health Display
+    private GameObject HealthDisplayObject;
+    private HealthDisplay HealthDisplay;
+    public GameObject HealthPoint;
+
     // UI
     private OutputBox Output;
 
@@ -20,6 +25,13 @@ public abstract class Unit : MonoBehaviour
         SpriteRenderer.sprite = Sprite;
         Map = FindObjectOfType<Map>();
         Output = FindObjectOfType<OutputBox>();
+
+        // Health Display
+        HealthDisplayObject = new GameObject("Health Display");
+        HealthDisplayObject.transform.SetParent(transform);
+        HealthDisplay = HealthDisplayObject.AddComponent<HealthDisplay>();
+        HealthDisplay.HealthPrefab = HealthPoint;
+        HealthDisplay.StartUp();
     }
 
     public void UpdateLayer(int layer) 

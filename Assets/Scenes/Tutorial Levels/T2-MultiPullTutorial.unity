@@ -502,7 +502,7 @@ MonoBehaviour:
         X: 2
         Y: 2
       Direction: 78
-      Health: 2
+      Health: 1
       Team: 1
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
         type: 3}
@@ -522,7 +522,7 @@ MonoBehaviour:
         X: 4
         Y: 2
       Direction: 78
-      Health: 2
+      Health: 1
       Team: 1
     - UnitModel: {fileID: 4297845725649196440, guid: db2b3defeb0f93748a7a45fe39167dab,
         type: 3}
