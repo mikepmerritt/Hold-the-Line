@@ -411,7 +411,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -532,7 +532,7 @@ PrefabInstance:
     - target: {fileID: 6547611407304441845, guid: a01d1f1d57c63c94ca14618835ef59cf,
         type: 3}
       propertyPath: m_text
-      value: 'Try to keep you melee unit with your healer.
+      value: 'Try to keep your melee unit with your healer.
 
         The healer will
         add to the health of a targeted unit, allowing them to take more hits.'
