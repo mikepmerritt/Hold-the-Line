@@ -46,8 +46,14 @@ public class Map : MonoBehaviour
     // selection box
     public GameObject SelectionBox;
 
+    // UI
+    private OutputBox Output;
+
     private void Start()
     {
+        // Load UI
+        Output = FindObjectOfType<OutputBox>();
+
         // initialize dimensions
         Width = StartWidth;
         Height = StartHeight;
@@ -237,7 +243,7 @@ public class Map : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Invalid shift, no buffer remaining.");
+                Output.ShowError("Invalid shift, no buffer remaining.");
                 return false;
             }
         }
@@ -287,7 +293,7 @@ public class Map : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Invalid shift, no buffer remaining.");
+                Output.ShowError("Invalid shift, no buffer remaining.");
                 return false;
             }
         }
@@ -337,7 +343,7 @@ public class Map : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Invalid shift, no buffer remaining.");
+                Output.ShowError("Invalid shift, no buffer remaining.");
                 return false;
             }
         }
@@ -387,7 +393,7 @@ public class Map : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Invalid shift, no buffer remaining.");
+                Output.ShowError("Invalid shift, no buffer remaining.");
                 return false;
             }
         }
@@ -714,7 +720,7 @@ public class Map : MonoBehaviour
                     //Debug.Log("There was a tile stack.");
                     if(LevelMap[i + dy, col].GetUnit() != null) 
                     {
-                        Debug.LogError("Units cannot be moved over locked tiles.");
+                        Output.ShowError("Units cannot be moved over locked tiles.");
                         return false;
                     }
                 }
@@ -733,7 +739,7 @@ public class Map : MonoBehaviour
                     //Debug.Log("There was a tile stack.");
                     if(LevelMap[row, i + dx].GetUnit() != null) 
                     {
-                        Debug.LogError("Units cannot be moved over locked tiles.");
+                        Output.ShowError("Units cannot be moved over locked tiles.");
                         return false;
                     }
                 }
@@ -741,7 +747,7 @@ public class Map : MonoBehaviour
             //Debug.Log("The move was valid.");
             return true;
         }
-        Debug.LogError("Illegal unknown move.");
+        Output.ShowError("Illegal unknown move.");
         return false;
     }
 

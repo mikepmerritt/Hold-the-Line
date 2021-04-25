@@ -16,6 +16,9 @@ public class GameController : MonoBehaviour
     public int TurnsRemaining;
     private bool TurnOver;
 
+    // UI
+    private OutputBox Output;
+
     private void Start()
     {
         Map = FindObjectOfType<Map>();
@@ -24,6 +27,7 @@ public class GameController : MonoBehaviour
         ShowOverlay = false;
         SelectedUnit = 0;
         TurnOver = false;
+        Output = FindObjectOfType<OutputBox>();
     }
 
     private void Update() 
@@ -172,13 +176,13 @@ public class GameController : MonoBehaviour
             // check win conditions
             if (Player2Units.Count == 0) 
             {
-                Debug.Log("You won!");
+                Output.ShowText("You won!");
                 TurnsRemaining = 0;
                 TurnOver = true;
             }
             if (Player1Units.Count == 0)
             {
-                Debug.LogWarning("You lost!");
+                Output.ShowWarning("You lost!");
                 TurnsRemaining = 0;
                 TurnOver = true;
             }
@@ -191,14 +195,8 @@ public class GameController : MonoBehaviour
             TurnsRemaining--;
             if (Player2Units.Count != 0)
             {
-                Debug.LogWarning("You are out of moves. Please retry.");
+                Output.ShowWarning("You are out of moves. Please retry.");
             }
-        }
-
-        // reload level
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
@@ -218,6 +216,12 @@ public class GameController : MonoBehaviour
     public int GetTurnsRemaining()
     {
         return Mathf.Max(0, TurnsRemaining);
+    }
+
+    public void ResetLevel()
+    {
+        // reload current level
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 }

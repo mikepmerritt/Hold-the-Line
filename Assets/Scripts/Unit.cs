@@ -11,11 +11,15 @@ public abstract class Unit : MonoBehaviour
     public int Health, Team;
     protected Map Map;
 
+    // UI
+    private OutputBox Output;
+
     private void Awake() 
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
         SpriteRenderer.sprite = Sprite;
         Map = FindObjectOfType<Map>();
+        Output = FindObjectOfType<OutputBox>();
     }
 
     public void UpdateLayer(int layer) 
@@ -47,7 +51,7 @@ public abstract class Unit : MonoBehaviour
             Tile destination = Map.GetTileInComposite(Location.Y - 1, Location.X);
             if (destination == null || destination.GetUnit() != null || Map.IsLocked(Location.Y - 1, Location.X))
             {
-                Debug.LogError("Cannot push into this location.");
+                Output.ShowError("Cannot push into this location.");
                 return false;
             }
             else 
@@ -66,7 +70,7 @@ public abstract class Unit : MonoBehaviour
             Tile destination = Map.GetTileInComposite(Location.Y + 1, Location.X);
             if (destination == null || destination.GetUnit() != null || Map.IsLocked(Location.Y + 1, Location.X))
             {
-                Debug.LogError("Cannot push into this location.");
+                Output.ShowError("Cannot push into this location.");
                 return false;
             }
             else 
@@ -85,7 +89,7 @@ public abstract class Unit : MonoBehaviour
             Tile destination = Map.GetTileInComposite(Location.Y, Location.X - 1);
             if (destination == null || destination.GetUnit() != null || Map.IsLocked(Location.Y, Location.X - 1))
             {
-                Debug.LogError("Cannot push into this location.");
+                Output.ShowError("Cannot push into this location.");
                 return false;
             }
             else 
@@ -104,7 +108,7 @@ public abstract class Unit : MonoBehaviour
             Tile destination = Map.GetTileInComposite(Location.Y, Location.X + 1);
             if (destination == null || destination.GetUnit() != null || Map.IsLocked(Location.Y, Location.X + 1))
             {
-                Debug.LogError("Cannot push into this location.");
+                Output.ShowError("Cannot push into this location.");
                 return false;
             }
             else 
