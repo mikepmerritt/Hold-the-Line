@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurnsRemaining: 1
+  WinButton: {fileID: 6547611407272626119}
 --- !u!4 &214839501
 Transform:
   m_ObjectHideFlags: 0
@@ -569,8 +570,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7451272183849107930, guid: a01d1f1d57c63c94ca14618835ef59cf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451272183849107930, guid: a01d1f1d57c63c94ca14618835ef59cf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451272183849107930, guid: a01d1f1d57c63c94ca14618835ef59cf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 214839500}
+    - target: {fileID: 7451272183849107930, guid: a01d1f1d57c63c94ca14618835ef59cf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451272183849107930, guid: a01d1f1d57c63c94ca14618835ef59cf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReturnToTutorialMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451272183849107930, guid: a01d1f1d57c63c94ca14618835ef59cf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a01d1f1d57c63c94ca14618835ef59cf, type: 3}
+--- !u!1 &6547611407272626119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7481792794544423459, guid: a01d1f1d57c63c94ca14618835ef59cf,
+    type: 3}
+  m_PrefabInstance: {fileID: 6547611407272626118}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6858592512235006992
 PrefabInstance:
   m_ObjectHideFlags: 0

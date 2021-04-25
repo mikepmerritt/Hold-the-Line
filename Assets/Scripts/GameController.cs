@@ -18,6 +18,11 @@ public class GameController : MonoBehaviour
 
     // UI
     private OutputBox Output;
+    public GameObject WinButton;
+
+    // Build indexes
+    private const int TutorialSelect = 2;
+    private const int MainMenu = 0;
 
     private void Start()
     {
@@ -177,6 +182,7 @@ public class GameController : MonoBehaviour
             if (Player2Units.Count == 0) 
             {
                 Output.ShowText("You won!");
+                WinButton.SetActive(true);
                 TurnsRemaining = 0;
                 TurnOver = true;
             }
@@ -222,6 +228,16 @@ public class GameController : MonoBehaviour
     {
         // reload current level
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ReturnToTutorialMenu()
+    {
+        SceneManager.LoadScene(TutorialSelect);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene(MainMenu);
     }
 
 }
