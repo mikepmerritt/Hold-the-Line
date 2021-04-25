@@ -29,4 +29,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial Levels/T4-WrapPullTutorial.unity
     guid: 6701d75af45da5b4a9ad4d1f1386a41d
+  - enabled: 1
+    path: Assets/Scenes/Gameplay Levels/M1-FirstBattlefield.unity
+    guid: 98d6a21c03e99a646a69f812a2da3156
+  - enabled: 1
+    path: Assets/Scenes/Gameplay Levels/M2-RangedBattlefield.unity
+    guid: c23cd7f95e46432418de73843a505da8
+  - enabled: 1
+    path: Assets/Scenes/Gameplay Levels/M3-RangedSolo.unity
+    guid: 275819c11fca4eb43ab21b25eb720bbc
+  - enabled: 1
+    path: Assets/Scenes/Gameplay Levels/M4-TwoUnitChase.unity
+    guid: 8e214d8ce7f5c6646b7a00d2294aad9f
   m_configObjects: {}

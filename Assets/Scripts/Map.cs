@@ -225,6 +225,11 @@ public class Map : MonoBehaviour
             if(SideWrappingMovement)
             {
                 Tile temp = LevelMap[row, MapWidth - 1];
+                if(LockMap[row, 0] != null && temp.GetUnit() != null)
+                {
+                    Output.ShowError("Units cannot be wrapped around to locked tiles.");
+                    return false; // the end of the column is a lock tile, so the wrap cannot occur
+                }
                 // check to make sure that the locked tiles permit the move
                 if(!TryConstructCompositeMap(row, -1, -1, 0)) 
                 {
@@ -275,6 +280,11 @@ public class Map : MonoBehaviour
             if (SideWrappingMovement)
             {
                 Tile temp = LevelMap[row, 0];
+                if(LockMap[row, MapWidth - 1] != null && temp.GetUnit() != null)
+                {
+                    Output.ShowError("Units cannot be wrapped around to locked tiles.");
+                    return false; // the end of the column is a lock tile, so the wrap cannot occur
+                }
                 // check to make sure that the locked tiles permit the move
                 if(!TryConstructCompositeMap(row, -1, 1, 0)) 
                 {
@@ -325,6 +335,11 @@ public class Map : MonoBehaviour
             if(SideWrappingMovement)
             {
                 Tile temp = LevelMap[MapHeight - 1, col];
+                if(LockMap[0, col] != null && temp.GetUnit() != null)
+                {
+                    Output.ShowError("Units cannot be wrapped around to locked tiles.");
+                    return false; // the end of the column is a lock tile, so the wrap cannot occur
+                }
                 // check to make sure that the locked tiles permit the move
                 if(!TryConstructCompositeMap(-1, col, 0, -1)) 
                 {
@@ -375,6 +390,11 @@ public class Map : MonoBehaviour
             if(SideWrappingMovement)
             {
                 Tile temp = LevelMap[0, col];
+                if(LockMap[MapHeight - 1, col] != null && temp.GetUnit() != null)
+                {
+                    Output.ShowError("Units cannot be wrapped around to locked tiles.");
+                    return false; // the end of the column is a lock tile, so the wrap cannot occur
+                }
                 // check to make sure that the locked tiles permit the move
                 if(!TryConstructCompositeMap(-1, col, 0, 1)) 
                 {
@@ -681,22 +701,22 @@ public class Map : MonoBehaviour
         SelectionArrow.SetActive(true);
         if (PullLeft)
         {
-            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 0f);
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 180f);
             SelectionArrow.transform.position = new Vector3(MinX - TileWidth, MaxY - Row * TileHeight, 0f);
         }
         else if (PullRight)
         {
-            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 180f);
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 0f);
             SelectionArrow.transform.position = new Vector3(MaxX + TileWidth, MaxY - Row * TileHeight, 0f);
         }
         else if (PullDown)
         {
-            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 90f);
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 270f);
             SelectionArrow.transform.position = new Vector3(MinX + Column * TileWidth, MinY - TileHeight, 0f);
         }
         else if (PullUp)
         {
-            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 270f);
+            SelectionArrow.transform.eulerAngles = new Vector3(0f, 0f, 90f);
             SelectionArrow.transform.position = new Vector3(MinX + Column * TileWidth, MaxY + TileHeight, 0f);
         }
     }
@@ -715,7 +735,7 @@ public class Map : MonoBehaviour
             for (int i = 0; i < MapHeight; i++) 
             {
                 //Debug.Log("Row: " + i + " Col: " + col);
-                if (LockMap[i, col] != null && LevelMap[i + dy, col] != null)
+                if (LockMap[i, col] != null && i + dy >= 0 && i + dy < MapHeight && LevelMap[i + dy, col] != null)
                 {
                     //Debug.Log("There was a tile stack.");
                     if(LevelMap[i + dy, col].GetUnit() != null) 
@@ -724,6 +744,24 @@ public class Map : MonoBehaviour
                         return false;
                     }
                 }
+                /*
+                else if (i + dy < 0)
+                {
+                    if(LockMap[MapHeight - 1, col] != null)
+                    {
+                        Output.ShowError("Units cannot be moved over locked tiles.");
+                        return false;
+                    }
+                }
+                else if (i + dy >= MapHeight)
+                {
+                    if(LockMap[0, col] != null)
+                    {
+                        Output.ShowError("Units cannot be moved over locked tiles.");
+                        return false;
+                    }
+                }
+                */
             }
             //Debug.Log("The move was valid.");
             return true;
@@ -734,7 +772,7 @@ public class Map : MonoBehaviour
             for (int i = 0; i < MapWidth; i++) 
             {
                 //Debug.Log("Row: " + row + " Col: " + i + " i+dx: " + (i+dx));
-                if (LockMap[row, i] != null && LevelMap[row, i + dx] != null)
+                if (LockMap[row, i] != null && i + dx >= 0 && i + dx < MapWidth && LevelMap[row, i + dx] != null)
                 {
                     //Debug.Log("There was a tile stack.");
                     if(LevelMap[row, i + dx].GetUnit() != null) 

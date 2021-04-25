@@ -31,7 +31,11 @@ public class HealingUnit : Unit
         {
             if (targetTile.GetUnit().Team == Team)
             {
-                targetTile.GetUnit().Health++;
+                // limit overheal
+                if(targetTile.GetUnit().Health < 2)
+                {
+                    targetTile.GetUnit().Health++;
+                }
             }
         }
     }
