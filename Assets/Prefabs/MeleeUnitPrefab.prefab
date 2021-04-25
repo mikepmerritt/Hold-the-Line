@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sprite: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
   Location:
     X: 0
     Y: 0
@@ -104,3 +105,5 @@ MonoBehaviour:
   Direction: 0
   Health: 0
   Team: 0
+  HealthPoint: {fileID: 2779512754775396184, guid: 26be0deec26845a4091d647c7cf1fbf2,
+    type: 3}

@@ -212,7 +212,7 @@ MonoBehaviour:
         X: 1
         Y: 1
       Direction: 78
-      Health: 2
+      Health: 1
       Team: 1
     - UnitModel: {fileID: 2348685811429869319, guid: 410f97fdf5665624682274da4954b14c,
         type: 3}

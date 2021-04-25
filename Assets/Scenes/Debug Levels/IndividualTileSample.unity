@@ -493,6 +493,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurnsRemaining: 100
+  WinButton: {fileID: 0}
+  TurnCounter: {fileID: 0}
 --- !u!4 &2042557231
 Transform:
   m_ObjectHideFlags: 0
