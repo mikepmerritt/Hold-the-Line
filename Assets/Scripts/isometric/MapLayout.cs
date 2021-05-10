@@ -83,9 +83,13 @@ public class MapLayout : MonoBehaviour
 
     private void Update() 
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            Debug.Log(ShiftTiles(2));
+            ShiftTiles(2, -1);
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            ShiftTiles(2, 1);
         }
     }
 
@@ -116,7 +120,7 @@ public class MapLayout : MonoBehaviour
         }
     }
 
-    public bool ShiftTiles(int row) 
+    public bool ShiftTiles(int row, int direction) 
     {
         Vector3Int[] positions = new Vector3Int[BufferedMap.GetLength(1)];
         TileBase[] removed = new TileBase[BufferedMap.GetLength(1)];
@@ -128,31 +132,57 @@ public class MapLayout : MonoBehaviour
             removed[i] = BufferedMap[row, i];
         }
 
-        // if last space is not empty, move cannot be done
-        if (removed[removed.Length - 1] != null)
+        if (direction == 1) 
         {
-            Debug.LogError("Invalid move, no space to shift tiles.");
-            return false;
+            // if last space is not empty, move cannot be done
+            if (removed[removed.Length - 1] != null)
+            {
+                Debug.LogError("Invalid move, no space to shift tiles.");
+                return false;
+            }
+
+            TileBase[] moved = new TileBase[BufferedMap.GetLength(1)];
+
+            // clear leftmost spot
+            moved[0] = null;
+
+            // shift all tiles
+            for (int i = 1; i < removed.Length; i++)
+            {
+                moved[i] = removed[i - 1];
+            }
+
+            // for (int i = 0; i < positions.Length; i++)
+            // {
+            //     Debug.Log(positions[i] + ": " + moved[i]);
+            // }
+
+            Tiles.SetTiles(positions, moved);
+            UpdateBufferedMap();
         }
-
-        TileBase[] moved = new TileBase[BufferedMap.GetLength(1)];
-
-        // clear leftmost spot
-        moved[0] = null;
-
-        // shift all tiles
-        for (int i = 1; i < removed.Length; i++)
+        else if (direction == -1) 
         {
-            moved[i] = removed[i - 1];
-        }
+            // if first space is not empty, move cannot be done
+            if (removed[0] != null)
+            {
+                Debug.LogError("Invalid move, no space to shift tiles.");
+                return false;
+            }
 
-        for (int i = 0; i < positions.Length; i++)
-        {
-            Debug.Log(positions[i] + ": " + moved[i]);
-        }
+            TileBase[] moved = new TileBase[BufferedMap.GetLength(1)];
 
-        Tiles.SetTiles(positions, moved);
-        UpdateBufferedMap();
+            // clear rightmost spot
+            moved[moved.Length - 1] = null;
+
+            // shift all tiles
+            for (int i = 0; i < removed.Length - 1; i++) 
+            {
+                moved[i] = removed[i + 1];
+            }
+
+            Tiles.SetTiles(positions, moved);
+            UpdateBufferedMap();
+        }
 
         return true;
     }
