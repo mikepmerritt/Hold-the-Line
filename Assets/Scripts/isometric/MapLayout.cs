@@ -12,6 +12,8 @@ public class MapLayout : MonoBehaviour
     private int BufferWidth, BufferHeight;
     private TileBase[,] BufferedMap;
 
+    public int Row, Column;
+
     private void Start() 
     {
         Tiles = GetComponent<Tilemap>();
@@ -35,61 +37,26 @@ public class MapLayout : MonoBehaviour
         Width = MaxX - MinX + 1;
         Height = MaxY - MinY + 1;
 
-        Debug.Log(Width + " " + Height);
-        Debug.Log(Tiles.cellBounds);
-
-        // printing tilemap
-        string res = "";
-        for (int r = 0; r < Tiles.size.y; r++) 
-        {
-            for (int c = 0; c < Tiles.size.x; c++) 
-            {
-                if (tileArray[r, c]) 
-                {
-                    res += "T";
-                }
-                else 
-                {
-                    res += "F";
-                }
-                res += "\t";
-            }
-            res += "\n";
-        }
-        Debug.Log(res);
-
-        CreateBufferedMap(2, 2);
-
-        // printing tilemap
-        // string res2 = "";
-        // for (int r = 0; r < BufferedMap.GetLength(0); r++) 
-        // {
-        //     for (int c = 0; c < BufferedMap.GetLength(1); c++) 
-        //     {
-        //         if (BufferedMap[r, c] == null) 
-        //         {
-        //             res2 += "notile";
-        //         }
-        //         else
-        //         {
-        //             res2 += BufferedMap[r, c];
-        //         }
-        //         res2 += "\t";
-        //     }
-        //     res2 += "\n";
-        // }
-        // Debug.Log(res2);
+        CreateBufferedMap(1, 1);
     }
 
     private void Update() 
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            ShiftTiles(2, -1);
+            ShiftTiles(new Vector2Int(Row, 0), -1);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            ShiftTiles(2, 1);
+            ShiftTiles(new Vector2Int(Row, 0), 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            ShiftTiles(new Vector2Int(0, Column), -1);
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            ShiftTiles(new Vector2Int(0, Column), 1);
         }
     }
 
@@ -120,16 +87,41 @@ public class MapLayout : MonoBehaviour
         }
     }
 
-    public bool ShiftTiles(int row, int direction) 
+    public bool ShiftTiles(Vector2Int location, int direction) 
     {
-        Vector3Int[] positions = new Vector3Int[BufferedMap.GetLength(1)];
-        TileBase[] removed = new TileBase[BufferedMap.GetLength(1)];
+        int dimension;
+        // if shifting a row
+        if (location.y == 0) 
+        {
+            dimension = 1;
+        }
+        // else shifting a column
+        else 
+        {
+            dimension = 0;
+        }
+
+        Vector3Int[] positions = new Vector3Int[BufferedMap.GetLength(dimension)];
+        TileBase[] removed = new TileBase[BufferedMap.GetLength(dimension)];
 
         // saving old tiles
-        for (int i = 0; i < BufferedMap.GetLength(1); i++) 
+        // if shifting a row, go through the columns to save the tiles
+        if (dimension == 1) 
         {
-            positions[i] = new Vector3Int(i + MinX - BufferWidth, row + MinY - BufferHeight, 0);
-            removed[i] = BufferedMap[row, i];
+            for (int i = 0; i < BufferedMap.GetLength(dimension); i++) 
+            {
+                positions[i] = new Vector3Int(i + MinX - BufferWidth, location.x + MinY - BufferHeight, 0);
+                removed[i] = BufferedMap[location.x, i];
+            }
+        }
+        // else shifting a column, go through the rows to save the tiles
+        else 
+        {
+            for (int i = 0; i < BufferedMap.GetLength(dimension); i++) 
+            {
+                positions[i] = new Vector3Int(location.y + MinX - BufferWidth, i + MinY - BufferHeight, 0);
+                removed[i] = BufferedMap[i, location.y];
+            }
         }
 
         if (direction == 1) 
@@ -141,7 +133,7 @@ public class MapLayout : MonoBehaviour
                 return false;
             }
 
-            TileBase[] moved = new TileBase[BufferedMap.GetLength(1)];
+            TileBase[] moved = new TileBase[BufferedMap.GetLength(dimension)];
 
             // clear leftmost spot
             moved[0] = null;
@@ -151,11 +143,6 @@ public class MapLayout : MonoBehaviour
             {
                 moved[i] = removed[i - 1];
             }
-
-            // for (int i = 0; i < positions.Length; i++)
-            // {
-            //     Debug.Log(positions[i] + ": " + moved[i]);
-            // }
 
             Tiles.SetTiles(positions, moved);
             UpdateBufferedMap();
@@ -169,7 +156,7 @@ public class MapLayout : MonoBehaviour
                 return false;
             }
 
-            TileBase[] moved = new TileBase[BufferedMap.GetLength(1)];
+            TileBase[] moved = new TileBase[BufferedMap.GetLength(dimension)];
 
             // clear rightmost spot
             moved[moved.Length - 1] = null;
