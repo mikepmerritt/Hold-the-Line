@@ -146,12 +146,12 @@ public class UnitLayout : MonoBehaviour
             // if shifting right
             if (direction == 1)
             {
-                return BufferedMap[location.y, BufferedMap.GetLength(1) - 1] == null;
+                return BufferedMap[location.x, BufferedMap.GetLength(1) - 1] == null;
             }
             // else shifting left
             else
             {
-                return BufferedMap[location.y, 0] == null;
+                return BufferedMap[location.x, 0] == null;
             }
         }
         // else shifting a column
@@ -160,12 +160,12 @@ public class UnitLayout : MonoBehaviour
             // if shifting up
             if (direction == 1)
             {
-                return BufferedMap[BufferedMap.GetLength(0) - 1, location.x] == null;
+                return BufferedMap[BufferedMap.GetLength(0) - 1, location.y] == null;
             }
             // else shifting down
             else
             {
-                return BufferedMap[0, location.x] == null;
+                return BufferedMap[0, location.y] == null;
             }
         }
     }
