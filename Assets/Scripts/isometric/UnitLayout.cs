@@ -51,19 +51,19 @@ public class UnitLayout : MonoBehaviour
     }
 
     // location should be given in the form (row, column)
-    public bool ShiftTiles(Vector2Int location, int direction) 
+    public bool ShiftTiles(int dimension, Vector2Int location, int direction) 
     {
-        int dimension;
-        // if shifting a row
-        if (location.y == 0) 
-        {
-            dimension = 1;
-        }
-        // else shifting a column
-        else 
-        {
-            dimension = 0;
-        }
+        // int dimension;
+        // // if shifting a row
+        // if (location.y == 0) 
+        // {
+        //     dimension = 1;
+        // }
+        // // else shifting a column
+        // else 
+        // {
+        //     dimension = 0;
+        // }
 
         Vector3Int[] positions = new Vector3Int[BufferedMap.GetLength(dimension)];
         TileBase[] removed = new TileBase[BufferedMap.GetLength(dimension)];
@@ -138,4 +138,35 @@ public class UnitLayout : MonoBehaviour
         return true;
     }
 
+    public bool CanShiftTiles(int dimension, Vector2Int location, int direction)
+    {
+        // if shifting a row
+        if (dimension == 1) 
+        {
+            // if shifting right
+            if (direction == 1)
+            {
+                return BufferedMap[location.y, BufferedMap.GetLength(1) - 1] == null;
+            }
+            // else shifting left
+            else
+            {
+                return BufferedMap[location.y, 0] == null;
+            }
+        }
+        // else shifting a column
+        else 
+        {
+            // if shifting up
+            if (direction == 1)
+            {
+                return BufferedMap[BufferedMap.GetLength(0) - 1, location.x] == null;
+            }
+            // else shifting down
+            else
+            {
+                return BufferedMap[0, location.x] == null;
+            }
+        }
+    }
 }

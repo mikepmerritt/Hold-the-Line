@@ -73,19 +73,19 @@ public class MapLayout : MonoBehaviour
     }
 
     // location should be given in the form (row, column)
-    public bool ShiftTiles(Vector2Int location, int direction) 
+    public bool ShiftTiles(int dimension, Vector2Int location, int direction) 
     {
-        int dimension;
-        // if shifting a row
-        if (location.y == 0) 
-        {
-            dimension = 1;
-        }
-        // else shifting a column
-        else 
-        {
-            dimension = 0;
-        }
+        // int dimension;
+        // // if shifting a row
+        // if (location.y == 0) 
+        // {
+        //     dimension = 1;
+        // }
+        // // else shifting a column
+        // else 
+        // {
+        //     dimension = 0;
+        // }
 
         Vector3Int[] positions = new Vector3Int[BufferedMap.GetLength(dimension)];
         TileBase[] removed = new TileBase[BufferedMap.GetLength(dimension)];
@@ -160,4 +160,63 @@ public class MapLayout : MonoBehaviour
         return true;
     }
 
+    public bool CanShiftTiles(int dimension, Vector2Int location, int direction)
+    {
+        // if shifting a row
+        if (dimension == 1) 
+        {
+            // if shifting right
+            if (direction == 1)
+            {
+                return BufferedMap[location.x, BufferedMap.GetLength(1) - 1] == null;
+            }
+            // else shifting left
+            else
+            {
+                return BufferedMap[location.x, 0] == null;
+            }
+        }
+        // else shifting a column
+        else 
+        {
+            // if shifting up
+            if (direction == 1)
+            {
+                return BufferedMap[BufferedMap.GetLength(0) - 1, location.y] == null;
+            }
+            // else shifting down
+            else
+            {
+                return BufferedMap[0, location.y] == null;
+            }
+        }
+    }
+
+    public bool TilesAreEmpty(int dimension, Vector2Int location)
+    {
+        // if shifting a row
+        if (dimension == 1) 
+        {
+            for (int i = 0; i < BufferedMap.GetLength(1); i++)
+            {
+                if (BufferedMap[location.x, i] != null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        // else shifting a column
+        else 
+        {
+            for (int i = 0; i < BufferedMap.GetLength(0); i++)
+            {
+                if (BufferedMap[i, location.y] != null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 }
