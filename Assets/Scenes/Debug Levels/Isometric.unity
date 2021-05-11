@@ -606,8 +606,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee1628a87527ec439184c81d8766f8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Row: 0
-  Column: 0
 --- !u!1 &1028852632
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,6 +617,7 @@ GameObject:
   - component: {fileID: 1028852633}
   - component: {fileID: 1028852635}
   - component: {fileID: 1028852634}
+  - component: {fileID: 1028852636}
   m_Layer: 0
   m_Name: Unitmap
   m_TagString: Untagged
@@ -809,6 +808,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1028852636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028852632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6daeda876cffda4eafaf02b4112ce29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1537559002
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,6 +830,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1537559004}
   - component: {fileID: 1537559003}
+  - component: {fileID: 1537559005}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -854,6 +866,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1537559005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537559002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473f4c0300713d94d81ca6b3bbb917cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Row: 0
+  Column: 0
 --- !u!1 &1955620855
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MapLayout : MonoBehaviour
+public class UnitLayout : MonoBehaviour
 {
 
     private Tilemap Tiles;
@@ -16,24 +16,14 @@ public class MapLayout : MonoBehaviour
     {
         Tiles = GetComponent<Tilemap>();
 
-        bool[,] tileArray = new bool[Tiles.size.y, Tiles.size.x];
-        for (int r = 0; r < Tiles.size.y; r++) 
-        {
-            for (int c = 0; c < Tiles.size.x; c++) 
-            {
-                if(Tiles.HasTile(new Vector3Int(c + Tiles.origin.x, r + Tiles.origin.y, 0))) 
-                {
-                    MinX = Mathf.Min(c + Tiles.origin.x, MinX);
-                    MaxX = Mathf.Max(c + Tiles.origin.x, MaxX);
-                    MinY = Mathf.Min(r + Tiles.origin.y, MinY);
-                    MaxY = Mathf.Max(r + Tiles.origin.y, MaxY);
-                }
-                tileArray[r, c] = Tiles.HasTile(new Vector3Int(c + Tiles.origin.x, r + Tiles.origin.y, 0));
-            }
-        }
-
-        Width = MaxX - MinX + 1;
-        Height = MaxY - MinY + 1;
+        MapLayout map = FindObjectOfType<MapLayout>();
+        
+        MinX = map.GetMinCell().x;
+        MinY = map.GetMinCell().y;
+        Width = map.GetDimensions().x;
+        Height = map.GetDimensions().y;
+        MaxX = Width - MinX + 1;
+        MaxY = Height - MinY + 1;
 
         BufferedMap = new TileBase[Height + bufferHeight * 2, Width + bufferWidth * 2];
 
@@ -58,18 +48,6 @@ public class MapLayout : MonoBehaviour
                 BufferedMap[r, c] = Tiles.GetTile(new Vector3Int(c + MinX - BufferWidth, r + MinY - BufferHeight, 0));
             }
         }
-    }
-
-    // returns the top left cell in the grid in the form (minCol, minRow)
-    public Vector2Int GetMinCell()
-    {
-        return new Vector2Int(MinX, MinY);
-    }
-
-    // returns the width and height of the grid in the form (width, height)
-    public Vector2Int GetDimensions() 
-    {
-        return new Vector2Int(Width, Height);
     }
 
     // location should be given in the form (row, column)
