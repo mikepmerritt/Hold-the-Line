@@ -32,8 +32,6 @@ public class PullControls : MonoBehaviour
         BufferWidth = bufferWidth;
         BufferHeight = bufferHeight;
 
-        Debug.Log(Width + 2 * BufferWidth);
-
         UpdateControls();
     }
 
@@ -97,7 +95,77 @@ public class PullControls : MonoBehaviour
     public Vector2Int ConvertMousePosition(Vector3 mousePosition)
     {
         Vector3Int cellPosition = Tiles.WorldToCell(mousePosition);
-        return new Vector2Int(cellPosition.x, cellPosition.y);
+
+        // convert cell position to tilemap positions
+        Vector3Int tilePos = new Vector3Int(cellPosition.x + Tiles.origin.x - MinX - BufferWidth, cellPosition.y + Tiles.origin.y - MinY - BufferHeight, 0);
+        // convert tilemap positions to array positions (swaps to row, col)
+        Vector2Int arrayPos = new Vector2Int(tilePos.y - MinY + BufferHeight, tilePos.x - MinX + BufferWidth);
+
+        return arrayPos;
+    }
+
+    public int GetPullDimension(Vector2Int location)
+    {
+        // convert array to tilemap
+        Vector3Int tilePos = new Vector3Int(location.y + MinX - BufferWidth, location.x + MinY - BufferHeight, 0);
+        
+        TileBase selected = Tiles.GetTile(tilePos);
+        if (selected.Equals(SE))
+        {
+            return 0;
+        }
+        else if (selected.Equals(SW))
+        {
+            return 1;
+        }
+        else if (selected.Equals(NE))
+        {
+            return 1;
+        }
+        else if (selected.Equals(NW))
+        {
+            return 0;
+        }
+        else 
+        {
+            return -1;
+        }
+    }
+
+    public int GetPullDirection(Vector2Int location)
+    {
+        // convert array to tilemap
+        Vector3Int tilePos = new Vector3Int(location.y + MinX - BufferWidth, location.x + MinY - BufferHeight, 0);
+        
+        TileBase selected = Tiles.GetTile(tilePos);
+        if (selected.Equals(SE))
+        {
+            return -1;
+        }
+        else if (selected.Equals(SW))
+        {
+            return -1;
+        }
+        else if (selected.Equals(NE))
+        {
+            return 1;
+        }
+        else if (selected.Equals(NW))
+        {
+            return 1;
+        }
+        else 
+        {
+            return 0;
+        }
+    }
+
+    public bool CanPull(Vector2Int location)
+    {
+        // convert array to tilemap
+        Vector3Int tilePos = new Vector3Int(location.y + MinX - BufferWidth, location.x + MinY - BufferHeight, 0);
+
+        return Tiles.GetTile(tilePos) != null;
     }
 
 }

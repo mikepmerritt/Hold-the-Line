@@ -1050,7 +1050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 473f4c0300713d94d81ca6b3bbb917cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Buffers: {x: 1, y: 1}
+  Buffers: {x: 2, y: 2}
   Row: 0
   Column: 0
 --- !u!1 &1955620855
