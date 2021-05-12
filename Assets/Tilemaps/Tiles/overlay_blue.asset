@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: redSword_N
+  m_Name: overlay_blue
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 2020866039410599899, guid: ef61e53e8c6197b4cb76fe1ef9758822,
+  m_Sprite: {fileID: -4426933547838425834, guid: 39612c140bf82dc4d8dd059a8e0b5539,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
